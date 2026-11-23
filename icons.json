@@ -1,0 +1,2558 @@
+{
+  "schema_version": 1,
+  "categories": [
+    {
+      "id": "docs",
+      "name": {
+        "zh": "文档",
+        "en": "Documents"
+      },
+      "icon": "note"
+    },
+    {
+      "id": "work",
+      "name": {
+        "zh": "工作",
+        "en": "Work"
+      },
+      "icon": "calendar"
+    },
+    {
+      "id": "dev",
+      "name": {
+        "zh": "开发",
+        "en": "Development"
+      },
+      "icon": "code"
+    },
+    {
+      "id": "study",
+      "name": {
+        "zh": "学习",
+        "en": "Study"
+      },
+      "icon": "cap"
+    },
+    {
+      "id": "life",
+      "name": {
+        "zh": "生活",
+        "en": "Life"
+      },
+      "icon": "home"
+    },
+    {
+      "id": "nature",
+      "name": {
+        "zh": "自然",
+        "en": "Nature"
+      },
+      "icon": "sun"
+    },
+    {
+      "id": "ocean",
+      "name": {
+        "zh": "海洋",
+        "en": "Ocean"
+      },
+      "icon": "wave"
+    },
+    {
+      "id": "symbol",
+      "name": {
+        "zh": "符号",
+        "en": "Symbols"
+      },
+      "icon": "star"
+    }
+  ],
+  "icons": [
+    {
+      "id": "note",
+      "category": "docs",
+      "name": {
+        "zh": "笔记",
+        "en": "Note"
+      },
+      "keywords": [
+        "note",
+        "doc",
+        "文档",
+        "页面",
+        "markdown",
+        "page",
+        "article",
+        "笔记"
+      ],
+      "ref": "note"
+    },
+    {
+      "id": "folder",
+      "category": "docs",
+      "name": {
+        "zh": "文件夹",
+        "en": "Folder"
+      },
+      "keywords": [
+        "folder",
+        "目录",
+        "directory",
+        "group"
+      ],
+      "ref": "folder"
+    },
+    {
+      "id": "folder-open",
+      "category": "docs",
+      "name": {
+        "zh": "打开的文件夹",
+        "en": "Open Folder"
+      },
+      "keywords": [
+        "folder",
+        "open",
+        "目录",
+        "directory",
+        "expanded",
+        "展开"
+      ],
+      "ref": "folder-open"
+    },
+    {
+      "id": "book",
+      "category": "docs",
+      "name": {
+        "zh": "书",
+        "en": "Book"
+      },
+      "keywords": [
+        "book",
+        "阅读",
+        "读书",
+        "read",
+        "reading",
+        "library",
+        "书籍"
+      ],
+      "ref": "file-book"
+    },
+    {
+      "id": "notebook",
+      "category": "docs",
+      "name": {
+        "zh": "笔记本",
+        "en": "Notebook"
+      },
+      "keywords": [
+        "notebook",
+        "本子",
+        "日记",
+        "journal",
+        "diary",
+        "pad",
+        "笔记本"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M6.25 5.75A2 2 0 0 1 8.25 3.75H10.5V20.25H8.25A2 2 0 0 1 6.25 18.25Z"
+        ],
+        "stroke_paths": [
+          "M8.25 3.75H17.25A2 2 0 0 1 19.25 5.75V18.25A2 2 0 0 1 17.25 20.25H8.25A2 2 0 0 1 6.25 18.25V5.75A2 2 0 0 1 8.25 3.75ZM4.25 8H8M4.25 12H8M4.25 16H8"
+        ],
+        "accent_paths": [
+          "M13.25 8.5H16.25M13.25 11.75H16.25"
+        ]
+      }
+    },
+    {
+      "id": "bookmark",
+      "category": "docs",
+      "name": {
+        "zh": "书签",
+        "en": "Bookmark"
+      },
+      "keywords": [
+        "bookmark",
+        "收藏",
+        "save",
+        "favorite",
+        "书签"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M7.5 3.75H16.5A1.25 1.25 0 0 1 17.75 5V20.25L12 16.25L6.25 20.25V5A1.25 1.25 0 0 1 7.5 3.75Z"
+        ],
+        "stroke_paths": [
+          "M7.5 3.75H16.5A1.25 1.25 0 0 1 17.75 5V20.25L12 16.25L6.25 20.25V5A1.25 1.25 0 0 1 7.5 3.75Z"
+        ],
+        "accent_paths": [
+          "M9.75 8.25H14.25"
+        ]
+      }
+    },
+    {
+      "id": "pencil",
+      "category": "docs",
+      "name": {
+        "zh": "铅笔",
+        "en": "Pencil"
+      },
+      "keywords": [
+        "pencil",
+        "写作",
+        "草稿",
+        "write",
+        "draft",
+        "edit"
+      ],
+      "ref": "pencil"
+    },
+    {
+      "id": "pen-nib",
+      "category": "docs",
+      "name": {
+        "zh": "钢笔",
+        "en": "Fountain Pen"
+      },
+      "keywords": [
+        "pen",
+        "nib",
+        "写作",
+        "随笔",
+        "essay",
+        "write",
+        "ink",
+        "钢笔"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M12 20.25L7.5 12L9.75 6.75H14.25L16.5 12Z"
+        ],
+        "stroke_paths": [
+          "M12 20.25L7.5 12L9.75 6.75H14.25L16.5 12ZM9.75 6.75V4.25H14.25V6.75"
+        ],
+        "accent_paths": [
+          "M12 20.25V13.5"
+        ],
+        "accent_fill_paths": [
+          "M10.6 12A1.4 1.4 0 1 0 13.4 12A1.4 1.4 0 1 0 10.6 12Z"
+        ]
+      }
+    },
+    {
+      "id": "quote",
+      "category": "docs",
+      "name": {
+        "zh": "摘录",
+        "en": "Quote"
+      },
+      "keywords": [
+        "quote",
+        "引用",
+        "摘抄",
+        "citation",
+        "excerpt"
+      ],
+      "ref": "quote"
+    },
+    {
+      "id": "todo",
+      "category": "docs",
+      "name": {
+        "zh": "待办",
+        "en": "To-Do"
+      },
+      "keywords": [
+        "todo",
+        "check",
+        "任务",
+        "清单",
+        "task",
+        "checklist",
+        "done"
+      ],
+      "ref": "todo"
+    },
+    {
+      "id": "archive",
+      "category": "docs",
+      "name": {
+        "zh": "归档",
+        "en": "Archive"
+      },
+      "keywords": [
+        "archive",
+        "box",
+        "归档",
+        "存档",
+        "storage",
+        "backup"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M5 4.75H19A1.25 1.25 0 0 1 20.25 6V8A1.25 1.25 0 0 1 19 9.25H5A1.25 1.25 0 0 1 3.75 8V6A1.25 1.25 0 0 1 5 4.75Z"
+        ],
+        "stroke_paths": [
+          "M5 4.75H19A1.25 1.25 0 0 1 20.25 6V8A1.25 1.25 0 0 1 19 9.25H5A1.25 1.25 0 0 1 3.75 8V6A1.25 1.25 0 0 1 5 4.75ZM5.25 9.25V17.25A2 2 0 0 0 7.25 19.25H16.75A2 2 0 0 0 18.75 17.25V9.25"
+        ],
+        "accent_paths": [
+          "M10 13H14"
+        ]
+      }
+    },
+    {
+      "id": "inbox",
+      "category": "docs",
+      "name": {
+        "zh": "收件箱",
+        "en": "Inbox"
+      },
+      "keywords": [
+        "inbox",
+        "收集",
+        "收件",
+        "collect",
+        "triage",
+        "收件箱"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M3.75 13.25H8.25L9.5 15.5H14.5L15.75 13.25H20.25V17.25A2 2 0 0 1 18.25 19.25H5.75A2 2 0 0 1 3.75 17.25Z"
+        ],
+        "stroke_paths": [
+          "M3.75 13.25L6.6 6.1A2 2 0 0 1 8.45 4.75H15.55A2 2 0 0 1 17.4 6.1L20.25 13.25V17.25A2 2 0 0 1 18.25 19.25H5.75A2 2 0 0 1 3.75 17.25ZM3.75 13.25H8.25L9.5 15.5H14.5L15.75 13.25H20.25"
+        ],
+        "accent_paths": [
+          "M9.5 8.75H14.5"
+        ]
+      }
+    },
+    {
+      "id": "calendar",
+      "category": "work",
+      "name": {
+        "zh": "日历",
+        "en": "Calendar"
+      },
+      "keywords": [
+        "calendar",
+        "日程",
+        "计划",
+        "schedule",
+        "date",
+        "plan"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M6 5.25H18A2.25 2.25 0 0 1 20.25 7.5V10H3.75V7.5A2.25 2.25 0 0 1 6 5.25Z"
+        ],
+        "stroke_paths": [
+          "M6 5.25H18A2.25 2.25 0 0 1 20.25 7.5V18A2.25 2.25 0 0 1 18 20.25H6A2.25 2.25 0 0 1 3.75 18V7.5A2.25 2.25 0 0 1 6 5.25ZM8 3.5V6.75M16 3.5V6.75M3.75 10H20.25"
+        ],
+        "accent_fill_paths": [
+          "M7.1 14.25A1.15 1.15 0 1 0 9.4 14.25A1.15 1.15 0 1 0 7.1 14.25Z"
+        ]
+      }
+    },
+    {
+      "id": "clock",
+      "category": "work",
+      "name": {
+        "zh": "时间",
+        "en": "Clock"
+      },
+      "keywords": [
+        "clock",
+        "time",
+        "时间",
+        "提醒",
+        "schedule",
+        "reminder"
+      ],
+      "ref": "clock"
+    },
+    {
+      "id": "target",
+      "category": "work",
+      "name": {
+        "zh": "目标",
+        "en": "Target"
+      },
+      "keywords": [
+        "target",
+        "goal",
+        "目标",
+        "okr",
+        "aim",
+        "重点"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M3.75 12A8.25 8.25 0 1 0 20.25 12A8.25 8.25 0 1 0 3.75 12Z"
+        ],
+        "stroke_paths": [
+          "M3.75 12A8.25 8.25 0 1 0 20.25 12A8.25 8.25 0 1 0 3.75 12ZM7.5 12A4.5 4.5 0 1 0 16.5 12A4.5 4.5 0 1 0 7.5 12Z"
+        ],
+        "accent_fill_paths": [
+          "M10.5 12A1.5 1.5 0 1 0 13.5 12A1.5 1.5 0 1 0 10.5 12Z"
+        ]
+      }
+    },
+    {
+      "id": "flag",
+      "category": "work",
+      "name": {
+        "zh": "里程碑",
+        "en": "Milestone"
+      },
+      "keywords": [
+        "flag",
+        "milestone",
+        "旗帜",
+        "marker",
+        "里程碑"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M5.75 5.25C8 4 10 4 12 5.25S16 6.5 18.25 5.25V13.75C16 15 14 15 12 13.75S8 12.5 5.75 13.75Z"
+        ],
+        "stroke_paths": [
+          "M5.75 5.25C8 4 10 4 12 5.25S16 6.5 18.25 5.25V13.75C16 15 14 15 12 13.75S8 12.5 5.75 13.75ZM5.75 20.25V4.5"
+        ]
+      }
+    },
+    {
+      "id": "briefcase",
+      "category": "work",
+      "name": {
+        "zh": "公文包",
+        "en": "Briefcase"
+      },
+      "keywords": [
+        "briefcase",
+        "work",
+        "工作",
+        "项目",
+        "project",
+        "office"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M3.75 12.5H20.25V17A2.25 2.25 0 0 1 18 19.25H6A2.25 2.25 0 0 1 3.75 17Z"
+        ],
+        "stroke_paths": [
+          "M6 7.25H18A2.25 2.25 0 0 1 20.25 9.5V17A2.25 2.25 0 0 1 18 19.25H6A2.25 2.25 0 0 1 3.75 17V9.5A2.25 2.25 0 0 1 6 7.25ZM8.75 7.25V5.75A1.5 1.5 0 0 1 10.25 4.25H13.75A1.5 1.5 0 0 1 15.25 5.75V7.25"
+        ],
+        "accent_paths": [
+          "M3.75 12.5H20.25M12 11.25V13.75"
+        ]
+      }
+    },
+    {
+      "id": "chart",
+      "category": "work",
+      "name": {
+        "zh": "数据",
+        "en": "Chart"
+      },
+      "keywords": [
+        "chart",
+        "bar",
+        "数据",
+        "报表",
+        "统计",
+        "report",
+        "analytics",
+        "stats"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M8.25 11.25H9.75A0.75 0.75 0 0 1 10.5 12V16.25A0.75 0.75 0 0 1 9.75 17H8.25A0.75 0.75 0 0 1 7.5 16.25V12A0.75 0.75 0 0 1 8.25 11.25ZM12.75 7.25H14.25A0.75 0.75 0 0 1 15 8V16.25A0.75 0.75 0 0 1 14.25 17H12.75A0.75 0.75 0 0 1 12 16.25V8A0.75 0.75 0 0 1 12.75 7.25ZM17.25 13.25H18.75A0.75 0.75 0 0 1 19.5 14V16.25A0.75 0.75 0 0 1 18.75 17H17.25A0.75 0.75 0 0 1 16.5 16.25V14A0.75 0.75 0 0 1 17.25 13.25Z"
+        ],
+        "stroke_paths": [
+          "M4.25 4.25V19.75H19.75M8.25 11.25H9.75A0.75 0.75 0 0 1 10.5 12V16.25A0.75 0.75 0 0 1 9.75 17H8.25A0.75 0.75 0 0 1 7.5 16.25V12A0.75 0.75 0 0 1 8.25 11.25ZM12.75 7.25H14.25A0.75 0.75 0 0 1 15 8V16.25A0.75 0.75 0 0 1 14.25 17H12.75A0.75 0.75 0 0 1 12 16.25V8A0.75 0.75 0 0 1 12.75 7.25ZM17.25 13.25H18.75A0.75 0.75 0 0 1 19.5 14V16.25A0.75 0.75 0 0 1 18.75 17H17.25A0.75 0.75 0 0 1 16.5 16.25V14A0.75 0.75 0 0 1 17.25 13.25Z"
+        ]
+      }
+    },
+    {
+      "id": "pie",
+      "category": "work",
+      "name": {
+        "zh": "占比",
+        "en": "Pie Chart"
+      },
+      "keywords": [
+        "pie",
+        "chart",
+        "占比",
+        "分析",
+        "ratio",
+        "breakdown",
+        "analytics"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M11.25 5.25A7.5 7.5 0 1 0 18.75 12.75H11.25Z"
+        ],
+        "stroke_paths": [
+          "M11.25 5.25A7.5 7.5 0 1 0 18.75 12.75H11.25Z"
+        ],
+        "accent_paths": [
+          "M14.25 3.75A6 6 0 0 1 20.25 9.75H14.25Z"
+        ]
+      }
+    },
+    {
+      "id": "kanban",
+      "category": "work",
+      "name": {
+        "zh": "看板",
+        "en": "Kanban"
+      },
+      "keywords": [
+        "kanban",
+        "board",
+        "看板",
+        "进度",
+        "workflow",
+        "progress"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M11 4.25H13A1.25 1.25 0 0 1 14.25 5.5V13A1.25 1.25 0 0 1 13 14.25H11A1.25 1.25 0 0 1 9.75 13V5.5A1.25 1.25 0 0 1 11 4.25Z"
+        ],
+        "stroke_paths": [
+          "M5 4.25H7A1.25 1.25 0 0 1 8.25 5.5V18.5A1.25 1.25 0 0 1 7 19.75H5A1.25 1.25 0 0 1 3.75 18.5V5.5A1.25 1.25 0 0 1 5 4.25ZM11 4.25H13A1.25 1.25 0 0 1 14.25 5.5V13A1.25 1.25 0 0 1 13 14.25H11A1.25 1.25 0 0 1 9.75 13V5.5A1.25 1.25 0 0 1 11 4.25ZM17 4.25H19A1.25 1.25 0 0 1 20.25 5.5V15.75A1.25 1.25 0 0 1 19 17H17A1.25 1.25 0 0 1 15.75 15.75V5.5A1.25 1.25 0 0 1 17 4.25Z"
+        ]
+      }
+    },
+    {
+      "id": "team",
+      "category": "work",
+      "name": {
+        "zh": "团队",
+        "en": "Team"
+      },
+      "keywords": [
+        "team",
+        "people",
+        "users",
+        "团队",
+        "成员",
+        "members",
+        "group"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M5.75 8.25A3.25 3.25 0 1 0 12.25 8.25A3.25 3.25 0 1 0 5.75 8.25Z"
+        ],
+        "stroke_paths": [
+          "M5.75 8.25A3.25 3.25 0 1 0 12.25 8.25A3.25 3.25 0 1 0 5.75 8.25ZM3.25 19.25C3.25 15.75 5.75 13.75 9 13.75S14.75 15.75 14.75 19.25"
+        ],
+        "accent_paths": [
+          "M15.25 5.25A3.25 3.25 0 0 1 15.25 11.5M17.5 14.25C19.5 15 20.75 16.75 20.75 19.25"
+        ]
+      }
+    },
+    {
+      "id": "mail",
+      "category": "work",
+      "name": {
+        "zh": "邮件",
+        "en": "Mail"
+      },
+      "keywords": [
+        "mail",
+        "email",
+        "邮件",
+        "信",
+        "message",
+        "letter",
+        "信件"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M4.5 7.25L12 12.75L19.5 7.25A2.25 2.25 0 0 0 18 5.75H6A2.25 2.25 0 0 0 4.5 7.25Z"
+        ],
+        "stroke_paths": [
+          "M6 5.75H18A2.25 2.25 0 0 1 20.25 8V16A2.25 2.25 0 0 1 18 18.25H6A2.25 2.25 0 0 1 3.75 16V8A2.25 2.25 0 0 1 6 5.75Z"
+        ],
+        "accent_paths": [
+          "M4.5 7.25L12 12.75L19.5 7.25"
+        ]
+      }
+    },
+    {
+      "id": "megaphone",
+      "category": "work",
+      "name": {
+        "zh": "公告",
+        "en": "Announcement"
+      },
+      "keywords": [
+        "megaphone",
+        "announce",
+        "公告",
+        "营销",
+        "broadcast",
+        "news",
+        "通知"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M8.25 9.25L17.25 5.25V18.75L8.25 14.75Z"
+        ],
+        "stroke_paths": [
+          "M4.25 10.25V13.75A1 1 0 0 0 5.25 14.75H8.25L17.25 18.75V5.25L8.25 9.25H5.25A1 1 0 0 0 4.25 10.25ZM7.25 14.75L8.5 19.25H11L9.9 15.5"
+        ],
+        "accent_paths": [
+          "M20 10.25V13.75"
+        ]
+      }
+    },
+    {
+      "id": "rocket",
+      "category": "work",
+      "name": {
+        "zh": "发布",
+        "en": "Launch"
+      },
+      "keywords": [
+        "rocket",
+        "launch",
+        "发布",
+        "上线",
+        "release",
+        "ship",
+        "deploy"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M12 3.25C15 5.5 16.25 8.75 16.25 12V16.25H7.75V12C7.75 8.75 9 5.5 12 3.25Z"
+        ],
+        "stroke_paths": [
+          "M12 3.25C15 5.5 16.25 8.75 16.25 12V16.25H7.75V12C7.75 8.75 9 5.5 12 3.25ZM7.75 12.5L4.75 15.25V18.25L7.75 16.25M16.25 12.5L19.25 15.25V18.25L16.25 16.25"
+        ],
+        "accent_paths": [
+          "M12 18.75V21"
+        ],
+        "accent_fill_paths": [
+          "M10.4 10A1.6 1.6 0 1 0 13.6 10A1.6 1.6 0 1 0 10.4 10Z"
+        ]
+      }
+    },
+    {
+      "id": "code",
+      "category": "dev",
+      "name": {
+        "zh": "代码",
+        "en": "Code"
+      },
+      "keywords": [
+        "code",
+        "代码",
+        "编程",
+        "programming",
+        "snippet",
+        "script"
+      ],
+      "ref": "code"
+    },
+    {
+      "id": "terminal",
+      "category": "dev",
+      "name": {
+        "zh": "终端",
+        "en": "Terminal"
+      },
+      "keywords": [
+        "terminal",
+        "shell",
+        "终端",
+        "命令",
+        "cli",
+        "command",
+        "命令行"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M6 4.75H18A2.25 2.25 0 0 1 20.25 7V17A2.25 2.25 0 0 1 18 19.25H6A2.25 2.25 0 0 1 3.75 17V7A2.25 2.25 0 0 1 6 4.75Z"
+        ],
+        "stroke_paths": [
+          "M6 4.75H18A2.25 2.25 0 0 1 20.25 7V17A2.25 2.25 0 0 1 18 19.25H6A2.25 2.25 0 0 1 3.75 17V7A2.25 2.25 0 0 1 6 4.75Z"
+        ],
+        "accent_paths": [
+          "M7.5 9.25L10.5 12L7.5 14.75M12.75 15H16.5"
+        ]
+      }
+    },
+    {
+      "id": "branch",
+      "category": "dev",
+      "name": {
+        "zh": "分支",
+        "en": "Branch"
+      },
+      "keywords": [
+        "git",
+        "branch",
+        "分支",
+        "版本",
+        "version",
+        "merge"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M5.25 6.25A1.75 1.75 0 1 0 8.75 6.25A1.75 1.75 0 1 0 5.25 6.25ZM5.25 17.75A1.75 1.75 0 1 0 8.75 17.75A1.75 1.75 0 1 0 5.25 17.75ZM15.25 9A1.75 1.75 0 1 0 18.75 9A1.75 1.75 0 1 0 15.25 9Z"
+        ],
+        "stroke_paths": [
+          "M5.25 6.25A1.75 1.75 0 1 0 8.75 6.25A1.75 1.75 0 1 0 5.25 6.25ZM5.25 17.75A1.75 1.75 0 1 0 8.75 17.75A1.75 1.75 0 1 0 5.25 17.75ZM15.25 9A1.75 1.75 0 1 0 18.75 9A1.75 1.75 0 1 0 15.25 9ZM7 8V16M17 10.75C17 13.75 12.5 13.5 8.25 16.5"
+        ]
+      }
+    },
+    {
+      "id": "bug",
+      "category": "dev",
+      "name": {
+        "zh": "缺陷",
+        "en": "Bug"
+      },
+      "keywords": [
+        "bug",
+        "缺陷",
+        "问题",
+        "issue",
+        "debug",
+        "fix",
+        "调试"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M12 7.75A4.5 4.5 0 0 1 16.5 12.25V15.25A4.5 4.5 0 0 1 7.5 15.25V12.25A4.5 4.5 0 0 1 12 7.75Z"
+        ],
+        "stroke_paths": [
+          "M12 7.75A4.5 4.5 0 0 1 16.5 12.25V15.25A4.5 4.5 0 0 1 7.5 15.25V12.25A4.5 4.5 0 0 1 12 7.75ZM9.25 8.5V7.5A2.75 2.75 0 0 1 14.75 7.5V8.5M7.5 11.5L4.25 9.75M7.5 14.25H3.75M7.5 16.5L4.5 18.75M16.5 11.5L19.75 9.75M16.5 14.25H20.25M16.5 16.5L19.5 18.75"
+        ],
+        "accent_paths": [
+          "M12 11.5V19.75"
+        ]
+      }
+    },
+    {
+      "id": "database",
+      "category": "dev",
+      "name": {
+        "zh": "数据库",
+        "en": "Database"
+      },
+      "keywords": [
+        "database",
+        "sql",
+        "数据库",
+        "storage",
+        "table",
+        "存储"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M4.75 6.5A7.25 2.75 0 1 0 19.25 6.5A7.25 2.75 0 1 0 4.75 6.5Z"
+        ],
+        "stroke_paths": [
+          "M4.75 6.5A7.25 2.75 0 1 0 19.25 6.5A7.25 2.75 0 1 0 4.75 6.5ZM4.75 6.5v11c0 1.52 3.25 2.75 7.25 2.75s7.25-1.23 7.25-2.75v-11"
+        ],
+        "accent_paths": [
+          "M4.75 12c0 1.52 3.25 2.75 7.25 2.75s7.25-1.23 7.25-2.75"
+        ]
+      }
+    },
+    {
+      "id": "server",
+      "category": "dev",
+      "name": {
+        "zh": "服务器",
+        "en": "Server"
+      },
+      "keywords": [
+        "server",
+        "服务器",
+        "运维",
+        "ops",
+        "infra",
+        "host"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M5.5 4.25H18.5A1.75 1.75 0 0 1 20.25 6V9A1.75 1.75 0 0 1 18.5 10.75H5.5A1.75 1.75 0 0 1 3.75 9V6A1.75 1.75 0 0 1 5.5 4.25Z"
+        ],
+        "stroke_paths": [
+          "M5.5 4.25H18.5A1.75 1.75 0 0 1 20.25 6V9A1.75 1.75 0 0 1 18.5 10.75H5.5A1.75 1.75 0 0 1 3.75 9V6A1.75 1.75 0 0 1 5.5 4.25ZM5.5 13.25H18.5A1.75 1.75 0 0 1 20.25 15V18A1.75 1.75 0 0 1 18.5 19.75H5.5A1.75 1.75 0 0 1 3.75 18V15A1.75 1.75 0 0 1 5.5 13.25Z"
+        ],
+        "accent_paths": [
+          "M14 7.5H17M14 16.5H17"
+        ],
+        "accent_fill_paths": [
+          "M6.25 7.5A1 1 0 1 0 8.25 7.5A1 1 0 1 0 6.25 7.5ZM6.25 16.5A1 1 0 1 0 8.25 16.5A1 1 0 1 0 6.25 16.5Z"
+        ]
+      }
+    },
+    {
+      "id": "cloud",
+      "category": "dev",
+      "name": {
+        "zh": "云",
+        "en": "Cloud"
+      },
+      "keywords": [
+        "cloud",
+        "云",
+        "部署",
+        "deploy",
+        "sync",
+        "remote",
+        "云端"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M7.25 18.25A4 4 0 0 1 6.6 10.3A5.75 5.75 0 0 1 17.6 9.3A4.5 4.5 0 0 1 16.75 18.25Z"
+        ],
+        "stroke_paths": [
+          "M7.25 18.25A4 4 0 0 1 6.6 10.3A5.75 5.75 0 0 1 17.6 9.3A4.5 4.5 0 0 1 16.75 18.25Z"
+        ]
+      }
+    },
+    {
+      "id": "package",
+      "category": "dev",
+      "name": {
+        "zh": "包",
+        "en": "Package"
+      },
+      "keywords": [
+        "package",
+        "依赖",
+        "模块",
+        "dependency",
+        "module",
+        "bundle"
+      ],
+      "ref": "package"
+    },
+    {
+      "id": "plug",
+      "category": "dev",
+      "name": {
+        "zh": "插件",
+        "en": "Plugin"
+      },
+      "keywords": [
+        "plug",
+        "plugin",
+        "插件",
+        "接口",
+        "extension",
+        "api",
+        "addon"
+      ],
+      "ref": "plug"
+    },
+    {
+      "id": "wrench",
+      "category": "dev",
+      "name": {
+        "zh": "工具",
+        "en": "Tools"
+      },
+      "keywords": [
+        "wrench",
+        "tool",
+        "工具",
+        "配置",
+        "config",
+        "settings",
+        "utility"
+      ],
+      "ref": "wrench"
+    },
+    {
+      "id": "cpu",
+      "category": "dev",
+      "name": {
+        "zh": "芯片",
+        "en": "Chip"
+      },
+      "keywords": [
+        "cpu",
+        "chip",
+        "芯片",
+        "硬件",
+        "hardware",
+        "processor",
+        "system"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M8.75 6.75H15.25A2 2 0 0 1 17.25 8.75V15.25A2 2 0 0 1 15.25 17.25H8.75A2 2 0 0 1 6.75 15.25V8.75A2 2 0 0 1 8.75 6.75Z"
+        ],
+        "stroke_paths": [
+          "M8.75 6.75H15.25A2 2 0 0 1 17.25 8.75V15.25A2 2 0 0 1 15.25 17.25H8.75A2 2 0 0 1 6.75 15.25V8.75A2 2 0 0 1 8.75 6.75ZM9.5 3.75V6.75M14.5 3.75V6.75M9.5 17.25V20.25M14.5 17.25V20.25M3.75 9.5H6.75M3.75 14.5H6.75M17.25 9.5H20.25M17.25 14.5H20.25"
+        ],
+        "accent_paths": [
+          "M10.75 10H13.25A0.75 0.75 0 0 1 14 10.75V13.25A0.75 0.75 0 0 1 13.25 14H10.75A0.75 0.75 0 0 1 10 13.25V10.75A0.75 0.75 0 0 1 10.75 10Z"
+        ]
+      }
+    },
+    {
+      "id": "key",
+      "category": "dev",
+      "name": {
+        "zh": "密钥",
+        "en": "Key"
+      },
+      "keywords": [
+        "key",
+        "secret",
+        "密钥",
+        "密码",
+        "token",
+        "password",
+        "auth"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M10.25 9A4.75 4.75 0 1 0 19.75 9A4.75 4.75 0 1 0 10.25 9Z"
+        ],
+        "stroke_paths": [
+          "M10.25 9A4.75 4.75 0 1 0 19.75 9A4.75 4.75 0 1 0 10.25 9ZM11.6 12.4L4.75 19.25M7.25 16.75L9.25 18.75"
+        ],
+        "accent_fill_paths": [
+          "M14.75 8A1.25 1.25 0 1 0 17.25 8A1.25 1.25 0 1 0 14.75 8Z"
+        ]
+      }
+    },
+    {
+      "id": "cap",
+      "category": "study",
+      "name": {
+        "zh": "课程",
+        "en": "Course"
+      },
+      "keywords": [
+        "graduation",
+        "cap",
+        "课程",
+        "学业",
+        "study",
+        "degree"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M12 5L20.75 9.25L12 13.5L3.25 9.25Z"
+        ],
+        "stroke_paths": [
+          "M12 5L20.75 9.25L12 13.5L3.25 9.25ZM6.75 11V15.5C6.75 16.9 9 18.25 12 18.25S17.25 16.9 17.25 15.5V11"
+        ],
+        "accent_paths": [
+          "M20.75 9.25V14.25"
+        ]
+      }
+    },
+    {
+      "id": "flask",
+      "category": "study",
+      "name": {
+        "zh": "实验",
+        "en": "Experiment"
+      },
+      "keywords": [
+        "flask",
+        "lab",
+        "实验",
+        "化学",
+        "chemistry",
+        "science",
+        "研究"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M7.6 14H16.4L18.75 18A1.5 1.5 0 0 1 17.5 20.25H6.5A1.5 1.5 0 0 1 5.25 18Z"
+        ],
+        "stroke_paths": [
+          "M9.75 3.75H14.25M10.25 3.75V9.5L5.25 18A1.5 1.5 0 0 0 6.5 20.25H17.5A1.5 1.5 0 0 0 18.75 18L13.75 9.5V3.75"
+        ],
+        "accent_paths": [
+          "M7.6 14H16.4"
+        ]
+      }
+    },
+    {
+      "id": "atom",
+      "category": "study",
+      "name": {
+        "zh": "科学",
+        "en": "Science"
+      },
+      "keywords": [
+        "atom",
+        "science",
+        "科学",
+        "物理",
+        "physics",
+        "research",
+        "molecule"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "stroke_paths": [
+          "M6.17 6.17A8.25 3.25 45 1 0 17.83 17.83A8.25 3.25 45 1 0 6.17 6.17ZM6.17 17.83A8.25 3.25 -45 1 0 17.83 6.17A8.25 3.25 -45 1 0 6.17 17.83Z"
+        ],
+        "accent_fill_paths": [
+          "M10.4 12A1.6 1.6 0 1 0 13.6 12A1.6 1.6 0 1 0 10.4 12Z"
+        ]
+      }
+    },
+    {
+      "id": "calculator",
+      "category": "study",
+      "name": {
+        "zh": "计算",
+        "en": "Calculator"
+      },
+      "keywords": [
+        "calculator",
+        "计算",
+        "数学",
+        "账",
+        "math",
+        "finance",
+        "compute"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M8.75 6.5H15.25A0.75 0.75 0 0 1 16 7.25V9.25A0.75 0.75 0 0 1 15.25 10H8.75A0.75 0.75 0 0 1 8 9.25V7.25A0.75 0.75 0 0 1 8.75 6.5Z"
+        ],
+        "stroke_paths": [
+          "M7.5 3.75H16.5A2.25 2.25 0 0 1 18.75 6V18A2.25 2.25 0 0 1 16.5 20.25H7.5A2.25 2.25 0 0 1 5.25 18V6A2.25 2.25 0 0 1 7.5 3.75ZM8.75 6.5H15.25A0.75 0.75 0 0 1 16 7.25V9.25A0.75 0.75 0 0 1 15.25 10H8.75A0.75 0.75 0 0 1 8 9.25V7.25A0.75 0.75 0 0 1 8.75 6.5Z"
+        ],
+        "accent_fill_paths": [
+          "M7.85 13.25A0.9 0.9 0 1 0 9.65 13.25A0.9 0.9 0 1 0 7.85 13.25ZM11.1 13.25A0.9 0.9 0 1 0 12.9 13.25A0.9 0.9 0 1 0 11.1 13.25ZM14.35 13.25A0.9 0.9 0 1 0 16.15 13.25A0.9 0.9 0 1 0 14.35 13.25ZM7.85 16.75A0.9 0.9 0 1 0 9.65 16.75A0.9 0.9 0 1 0 7.85 16.75ZM11.1 16.75A0.9 0.9 0 1 0 12.9 16.75A0.9 0.9 0 1 0 11.1 16.75ZM14.35 16.75A0.9 0.9 0 1 0 16.15 16.75A0.9 0.9 0 1 0 14.35 16.75Z"
+        ]
+      }
+    },
+    {
+      "id": "globe",
+      "category": "study",
+      "name": {
+        "zh": "世界",
+        "en": "Globe"
+      },
+      "keywords": [
+        "globe",
+        "world",
+        "世界",
+        "地理",
+        "网络",
+        "web",
+        "geography"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M3.75 12A8.25 8.25 0 1 0 20.25 12A8.25 8.25 0 1 0 3.75 12Z"
+        ],
+        "stroke_paths": [
+          "M3.75 12A8.25 8.25 0 1 0 20.25 12A8.25 8.25 0 1 0 3.75 12Z"
+        ],
+        "accent_paths": [
+          "M3.75 12H20.25M12 3.75C9.5 6 8.5 9 8.5 12S9.5 18 12 20.25C14.5 18 15.5 15 15.5 12S14.5 6 12 3.75"
+        ]
+      }
+    },
+    {
+      "id": "translate",
+      "category": "study",
+      "name": {
+        "zh": "语言",
+        "en": "Language"
+      },
+      "keywords": [
+        "translate",
+        "language",
+        "语言",
+        "翻译",
+        "外语",
+        "translation",
+        "foreign",
+        "i18n"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "stroke_paths": [
+          "M4 6.25H12.5M8.25 4.25V6.25M10.75 6.25C10.25 10 7.5 12.5 4.5 13.75M6 8.75C7 11 9 12.75 11 13.5"
+        ],
+        "accent_paths": [
+          "M12.25 19.75L16.25 10.25L20.25 19.75M13.6 16.5H18.9"
+        ]
+      }
+    },
+    {
+      "id": "puzzle",
+      "category": "study",
+      "name": {
+        "zh": "拼图",
+        "en": "Puzzle"
+      },
+      "keywords": [
+        "puzzle",
+        "拼图",
+        "思考",
+        "thinking",
+        "logic",
+        "idea"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M5.25 7.75H9.25A2.1 2.1 0 1 1 13.25 7.75H17.25V11.75A2.1 2.1 0 1 1 17.25 15.75V19.75H5.25Z"
+        ],
+        "stroke_paths": [
+          "M5.25 7.75H9.25A2.1 2.1 0 1 1 13.25 7.75H17.25V11.75A2.1 2.1 0 1 1 17.25 15.75V19.75H5.25Z"
+        ]
+      }
+    },
+    {
+      "id": "ruler",
+      "category": "study",
+      "name": {
+        "zh": "尺子",
+        "en": "Ruler"
+      },
+      "keywords": [
+        "ruler",
+        "measure",
+        "尺子",
+        "设计",
+        "design",
+        "layout"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M15.25 3.75L20.25 8.75L8.75 20.25L3.75 15.25Z"
+        ],
+        "stroke_paths": [
+          "M15.25 3.75L20.25 8.75L8.75 20.25L3.75 15.25Z"
+        ],
+        "accent_paths": [
+          "M7.25 11.75L9.25 13.75M10.5 8.5L12 10M13.75 5.25L15.75 7.25"
+        ]
+      }
+    },
+    {
+      "id": "medal",
+      "category": "study",
+      "name": {
+        "zh": "成就",
+        "en": "Award"
+      },
+      "keywords": [
+        "medal",
+        "award",
+        "成就",
+        "奖",
+        "achievement",
+        "badge",
+        "honor",
+        "奖章"
+      ],
+      "ref": "file-license"
+    },
+    {
+      "id": "palette",
+      "category": "study",
+      "name": {
+        "zh": "调色板",
+        "en": "Palette"
+      },
+      "keywords": [
+        "palette",
+        "art",
+        "艺术",
+        "设计",
+        "画",
+        "color",
+        "design",
+        "画板",
+        "调色"
+      ],
+      "ref": "tb-palette"
+    },
+    {
+      "id": "hourglass",
+      "category": "study",
+      "name": {
+        "zh": "沙漏",
+        "en": "Hourglass"
+      },
+      "keywords": [
+        "hourglass",
+        "沙漏",
+        "专注",
+        "focus",
+        "timer",
+        "wait"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M12 12C12 13.5 7.75 14.5 7.75 17V20.25H16.25V17C16.25 14.5 12 13.5 12 12Z"
+        ],
+        "stroke_paths": [
+          "M6.75 3.75H17.25M6.75 20.25H17.25M7.75 3.75V7C7.75 9.5 12 10.5 12 12S7.75 14.5 7.75 17V20.25M16.25 3.75V7C16.25 9.5 12 10.5 12 12S16.25 14.5 16.25 17V20.25"
+        ]
+      }
+    },
+    {
+      "id": "bulb",
+      "category": "study",
+      "name": {
+        "zh": "灵感",
+        "en": "Idea"
+      },
+      "keywords": [
+        "lightbulb",
+        "idea",
+        "灵感",
+        "想法",
+        "inspiration",
+        "tip"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M9 16.5C9 14.25 6.25 13.25 6.25 9.75A5.75 5.75 0 0 1 17.75 9.75C17.75 13.25 15 14.25 15 16.5Z"
+        ],
+        "stroke_paths": [
+          "M9 16.5C9 14.25 6.25 13.25 6.25 9.75A5.75 5.75 0 0 1 17.75 9.75C17.75 13.25 15 14.25 15 16.5Z"
+        ],
+        "accent_paths": [
+          "M9.5 19.75H14.5M10.25 11.25L12 13V16.5M13.75 11.25L12 13"
+        ]
+      }
+    },
+    {
+      "id": "home",
+      "category": "life",
+      "name": {
+        "zh": "家",
+        "en": "Home"
+      },
+      "keywords": [
+        "home",
+        "house",
+        "家",
+        "首页",
+        "index",
+        "main",
+        "家庭"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M6.25 9.5L12 4.5L17.75 9.5V18.25A1.5 1.5 0 0 1 16.25 19.75H7.75A1.5 1.5 0 0 1 6.25 18.25Z"
+        ],
+        "stroke_paths": [
+          "M4.25 11L12 4.25L19.75 11M6.25 9.5V18.25A1.5 1.5 0 0 0 7.75 19.75H16.25A1.5 1.5 0 0 0 17.75 18.25V9.5"
+        ],
+        "accent_paths": [
+          "M10.25 19.75V14.75H13.75V19.75"
+        ]
+      }
+    },
+    {
+      "id": "coffee",
+      "category": "life",
+      "name": {
+        "zh": "咖啡",
+        "en": "Coffee"
+      },
+      "keywords": [
+        "coffee",
+        "cup",
+        "咖啡",
+        "休息",
+        "break",
+        "cafe"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M5.25 9.25H16.25V15.25A4 4 0 0 1 12.25 19.25H9.25A4 4 0 0 1 5.25 15.25Z"
+        ],
+        "stroke_paths": [
+          "M5.25 9.25H16.25V15.25A4 4 0 0 1 12.25 19.25H9.25A4 4 0 0 1 5.25 15.25ZM16.25 10.75H17.5A2.5 2.5 0 0 1 17.5 15.75H16.1"
+        ],
+        "accent_paths": [
+          "M8.5 3.75V6.25M12.5 3.75V6.25"
+        ]
+      }
+    },
+    {
+      "id": "heart",
+      "category": "life",
+      "name": {
+        "zh": "喜欢",
+        "en": "Favorite"
+      },
+      "keywords": [
+        "heart",
+        "love",
+        "喜欢",
+        "健康",
+        "health",
+        "like"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M12 19.75C7 16.25 3.75 13 3.75 9.25A4.25 4.25 0 0 1 12 7.5A4.25 4.25 0 0 1 20.25 9.25C20.25 13 17 16.25 12 19.75Z"
+        ],
+        "stroke_paths": [
+          "M12 19.75C7 16.25 3.75 13 3.75 9.25A4.25 4.25 0 0 1 12 7.5A4.25 4.25 0 0 1 20.25 9.25C20.25 13 17 16.25 12 19.75Z"
+        ]
+      }
+    },
+    {
+      "id": "music",
+      "category": "life",
+      "name": {
+        "zh": "音乐",
+        "en": "Music"
+      },
+      "keywords": [
+        "music",
+        "音乐",
+        "歌",
+        "audio",
+        "song",
+        "playlist",
+        "歌单"
+      ],
+      "ref": "file-audio"
+    },
+    {
+      "id": "camera",
+      "category": "life",
+      "name": {
+        "zh": "相机",
+        "en": "Camera"
+      },
+      "keywords": [
+        "camera",
+        "photo",
+        "相机",
+        "摄影",
+        "snapshot",
+        "image"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M3.75 9A2 2 0 0 1 5.75 7H7.75L9.25 4.75H14.75L16.25 7H18.25A2 2 0 0 1 20.25 9V17A2 2 0 0 1 18.25 19H5.75A2 2 0 0 1 3.75 17Z"
+        ],
+        "stroke_paths": [
+          "M3.75 9A2 2 0 0 1 5.75 7H7.75L9.25 4.75H14.75L16.25 7H18.25A2 2 0 0 1 20.25 9V17A2 2 0 0 1 18.25 19H5.75A2 2 0 0 1 3.75 17Z"
+        ],
+        "accent_paths": [
+          "M8.75 12.75A3.25 3.25 0 1 0 15.25 12.75A3.25 3.25 0 1 0 8.75 12.75Z"
+        ]
+      }
+    },
+    {
+      "id": "video",
+      "category": "life",
+      "name": {
+        "zh": "影视",
+        "en": "Video"
+      },
+      "keywords": [
+        "video",
+        "film",
+        "影视",
+        "电影",
+        "movie",
+        "media",
+        "视频"
+      ],
+      "ref": "video"
+    },
+    {
+      "id": "gamepad",
+      "category": "life",
+      "name": {
+        "zh": "游戏",
+        "en": "Game"
+      },
+      "keywords": [
+        "game",
+        "gamepad",
+        "游戏",
+        "gaming",
+        "play",
+        "controller",
+        "娱乐"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M7.75 7.25H16.25A4.5 4.5 0 0 1 20.75 11.75V14.5A2.75 2.75 0 0 1 15.6 15.9L15 14.75H9L8.4 15.9A2.75 2.75 0 0 1 3.25 14.5V11.75A4.5 4.5 0 0 1 7.75 7.25Z"
+        ],
+        "stroke_paths": [
+          "M7.75 7.25H16.25A4.5 4.5 0 0 1 20.75 11.75V14.5A2.75 2.75 0 0 1 15.6 15.9L15 14.75H9L8.4 15.9A2.75 2.75 0 0 1 3.25 14.5V11.75A4.5 4.5 0 0 1 7.75 7.25Z"
+        ],
+        "accent_paths": [
+          "M7.75 9.75V12.75M6.25 11.25H9.25"
+        ],
+        "accent_fill_paths": [
+          "M14.35 10A0.9 0.9 0 1 0 16.15 10A0.9 0.9 0 1 0 14.35 10ZM16.1 12A0.9 0.9 0 1 0 17.9 12A0.9 0.9 0 1 0 16.1 12Z"
+        ]
+      }
+    },
+    {
+      "id": "pin",
+      "category": "life",
+      "name": {
+        "zh": "地点",
+        "en": "Location"
+      },
+      "keywords": [
+        "map",
+        "pin",
+        "location",
+        "地点",
+        "位置",
+        "place",
+        "spot"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M12 20.75C8.5 17 5.75 13.75 5.75 10A6.25 6.25 0 0 1 18.25 10C18.25 13.75 15.5 17 12 20.75Z"
+        ],
+        "stroke_paths": [
+          "M12 20.75C8.5 17 5.75 13.75 5.75 10A6.25 6.25 0 0 1 18.25 10C18.25 13.75 15.5 17 12 20.75Z"
+        ],
+        "accent_paths": [
+          "M9.75 10A2.25 2.25 0 1 0 14.25 10A2.25 2.25 0 1 0 9.75 10Z"
+        ]
+      }
+    },
+    {
+      "id": "map",
+      "category": "life",
+      "name": {
+        "zh": "地图",
+        "en": "Map"
+      },
+      "keywords": [
+        "map",
+        "travel",
+        "地图",
+        "旅行",
+        "route",
+        "guide"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M9.25 4.75L14.75 6.75V19.25L9.25 17.25Z"
+        ],
+        "stroke_paths": [
+          "M3.75 6.75L9.25 4.75L14.75 6.75L20.25 4.75V17.25L14.75 19.25L9.25 17.25L3.75 19.25Z"
+        ],
+        "accent_paths": [
+          "M9.25 4.75V17.25M14.75 6.75V19.25"
+        ]
+      }
+    },
+    {
+      "id": "cart",
+      "category": "life",
+      "name": {
+        "zh": "购物",
+        "en": "Shopping"
+      },
+      "keywords": [
+        "cart",
+        "shopping",
+        "购物",
+        "清单",
+        "buy",
+        "wishlist",
+        "store"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M6.2 7.75H19.5L17.5 14.75H7.75Z"
+        ],
+        "stroke_paths": [
+          "M3.25 4.75H5.5L7.75 14.75H17.5L19.5 7.75H6.2"
+        ],
+        "accent_fill_paths": [
+          "M7.6 18.25A1.4 1.4 0 1 0 10.4 18.25A1.4 1.4 0 1 0 7.6 18.25ZM14.85 18.25A1.4 1.4 0 1 0 17.65 18.25A1.4 1.4 0 1 0 14.85 18.25Z"
+        ]
+      }
+    },
+    {
+      "id": "card",
+      "category": "life",
+      "name": {
+        "zh": "账单",
+        "en": "Billing"
+      },
+      "keywords": [
+        "card",
+        "wallet",
+        "money",
+        "账单",
+        "财务",
+        "finance"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M6 5.75H18A2.25 2.25 0 0 1 20.25 8V10H3.75V8A2.25 2.25 0 0 1 6 5.75Z"
+        ],
+        "stroke_paths": [
+          "M6 5.75H18A2.25 2.25 0 0 1 20.25 8V16A2.25 2.25 0 0 1 18 18.25H6A2.25 2.25 0 0 1 3.75 16V8A2.25 2.25 0 0 1 6 5.75ZM3.75 10H20.25"
+        ],
+        "accent_paths": [
+          "M7 14.5H10.5"
+        ]
+      }
+    },
+    {
+      "id": "gift",
+      "category": "life",
+      "name": {
+        "zh": "礼物",
+        "en": "Gift"
+      },
+      "keywords": [
+        "gift",
+        "礼物",
+        "生日",
+        "birthday",
+        "present",
+        "reward",
+        "惊喜"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M3.75 7.75H20.25V11.25H3.75Z"
+        ],
+        "stroke_paths": [
+          "M3.75 7.75H20.25V11.25H3.75ZM5.25 11.25V18.25A1.5 1.5 0 0 0 6.75 19.75H17.25A1.5 1.5 0 0 0 18.75 18.25V11.25"
+        ],
+        "accent_paths": [
+          "M12 7.75V19.75M12 7.75C10 7.75 8 6.75 8 5.25A1.75 1.75 0 0 1 9.75 3.5C11.25 3.5 12 5.5 12 7.75C12 5.5 12.75 3.5 14.25 3.5A1.75 1.75 0 0 1 16 5.25C16 6.75 14 7.75 12 7.75"
+        ]
+      }
+    },
+    {
+      "id": "sun",
+      "category": "nature",
+      "name": {
+        "zh": "晴",
+        "en": "Sun"
+      },
+      "keywords": [
+        "sun",
+        "太阳",
+        "晴",
+        "日",
+        "sunny",
+        "day",
+        "weather",
+        "晴天"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M8 12A4 4 0 1 0 16 12A4 4 0 1 0 8 12Z"
+        ],
+        "stroke_paths": [
+          "M8 12A4 4 0 1 0 16 12A4 4 0 1 0 8 12Z"
+        ],
+        "accent_paths": [
+          "M12 3.5V5.25M12 18.75V20.5M3.5 12H5.25M18.75 12H20.5M6 6L7.25 7.25M16.75 16.75L18 18M6 18L7.25 16.75M16.75 7.25L18 6"
+        ]
+      }
+    },
+    {
+      "id": "moon",
+      "category": "nature",
+      "name": {
+        "zh": "夜",
+        "en": "Moon"
+      },
+      "keywords": [
+        "moon",
+        "night",
+        "月亮",
+        "夜",
+        "晚",
+        "sleep",
+        "dark",
+        "夜晚"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M19.5 14.25A8 8 0 1 1 9.75 4.5A6.25 6.25 0 0 0 19.5 14.25Z"
+        ],
+        "stroke_paths": [
+          "M19.5 14.25A8 8 0 1 1 9.75 4.5A6.25 6.25 0 0 0 19.5 14.25Z"
+        ],
+        "accent_fill_paths": [
+          "M17 4.5Q17.2 6.3 19 6.5Q17.2 6.7 17 8.5Q16.8 6.7 15 6.5Q16.8 6.3 17 4.5Z"
+        ]
+      }
+    },
+    {
+      "id": "leaf",
+      "category": "nature",
+      "name": {
+        "zh": "叶子",
+        "en": "Leaf"
+      },
+      "keywords": [
+        "leaf",
+        "叶",
+        "植物",
+        "plant",
+        "eco",
+        "green",
+        "叶子"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M5.25 18.75C5.25 10 10 5.25 18.75 5.25C18.75 14 14 18.75 5.25 18.75Z"
+        ],
+        "stroke_paths": [
+          "M5.25 18.75C5.25 10 10 5.25 18.75 5.25C18.75 14 14 18.75 5.25 18.75Z"
+        ],
+        "accent_paths": [
+          "M4 20L12.5 11.5"
+        ]
+      }
+    },
+    {
+      "id": "tree",
+      "category": "nature",
+      "name": {
+        "zh": "树",
+        "en": "Tree"
+      },
+      "keywords": [
+        "tree",
+        "树",
+        "森林",
+        "forest",
+        "woods",
+        "park",
+        "树木"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M12 3.75L17.25 10.75H14.75L18.75 16.25H5.25L9.25 10.75H6.75Z"
+        ],
+        "stroke_paths": [
+          "M12 3.75L17.25 10.75H14.75L18.75 16.25H5.25L9.25 10.75H6.75Z"
+        ],
+        "accent_paths": [
+          "M12 16.25V20.25"
+        ]
+      }
+    },
+    {
+      "id": "tulip",
+      "category": "nature",
+      "name": {
+        "zh": "花",
+        "en": "Flower"
+      },
+      "keywords": [
+        "flower",
+        "tulip",
+        "花",
+        "bloom",
+        "garden",
+        "花朵",
+        "花园"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M7.25 5.25L9.75 7.5L12 4.25L14.25 7.5L16.75 5.25V9.5A4.75 4.75 0 0 1 7.25 9.5Z"
+        ],
+        "stroke_paths": [
+          "M7.25 5.25L9.75 7.5L12 4.25L14.25 7.5L16.75 5.25V9.5A4.75 4.75 0 0 1 7.25 9.5ZM12 14.25V20.25"
+        ],
+        "accent_paths": [
+          "M12 19.5C10 19.5 8.25 18.25 7.75 15.75C10 15.75 11.5 17 12 19.5"
+        ]
+      }
+    },
+    {
+      "id": "mountain",
+      "category": "nature",
+      "name": {
+        "zh": "山",
+        "en": "Mountain"
+      },
+      "keywords": [
+        "mountain",
+        "山",
+        "户外",
+        "徒步",
+        "hike",
+        "outdoor",
+        "peak",
+        "山峰"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M3.25 19.25L9.5 7.25L13 13.5L15.25 10.25L20.75 19.25Z"
+        ],
+        "stroke_paths": [
+          "M3.25 19.25L9.5 7.25L13 13.5L15.25 10.25L20.75 19.25Z"
+        ],
+        "accent_paths": [
+          "M7.6 10.9L9.5 12.5L11.55 10.9"
+        ],
+        "accent_fill_paths": [
+          "M16 6A1.5 1.5 0 1 0 19 6A1.5 1.5 0 1 0 16 6Z"
+        ]
+      }
+    },
+    {
+      "id": "flame",
+      "category": "nature",
+      "name": {
+        "zh": "热门",
+        "en": "Trending"
+      },
+      "keywords": [
+        "fire",
+        "flame",
+        "火",
+        "热门",
+        "hot",
+        "energy",
+        "火焰"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M12 3.5C12.5 7 16.75 9 16.75 14A4.75 4.75 0 0 1 7.25 14C7.25 12 8.25 10.75 9.25 9.75C9.5 11.25 10.25 12 11 12.25C10.5 9 11 5.5 12 3.5Z"
+        ],
+        "stroke_paths": [
+          "M12 3.5C12.5 7 16.75 9 16.75 14A4.75 4.75 0 0 1 7.25 14C7.25 12 8.25 10.75 9.25 9.75C9.5 11.25 10.25 12 11 12.25C10.5 9 11 5.5 12 3.5Z"
+        ],
+        "accent_paths": [
+          "M12 18.5C10.75 18.5 10 17.6 10 16.5C10 15.25 12 14.5 12 13C13 14 14 15 14 16.5C14 17.6 13.25 18.5 12 18.5Z"
+        ]
+      }
+    },
+    {
+      "id": "drop",
+      "category": "nature",
+      "name": {
+        "zh": "水滴",
+        "en": "Water Drop"
+      },
+      "keywords": [
+        "drop",
+        "water",
+        "水",
+        "雨",
+        "rain",
+        "liquid",
+        "水滴",
+        "雨滴"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M12 3.75C12 3.75 5.75 10.25 5.75 14.5A6.25 6.25 0 0 0 18.25 14.5C18.25 10.25 12 3.75 12 3.75Z"
+        ],
+        "stroke_paths": [
+          "M12 3.75C12 3.75 5.75 10.25 5.75 14.5A6.25 6.25 0 0 0 18.25 14.5C18.25 10.25 12 3.75 12 3.75Z"
+        ],
+        "accent_paths": [
+          "M9 14.75A3 3 0 0 0 11.5 17.5"
+        ]
+      }
+    },
+    {
+      "id": "snow",
+      "category": "nature",
+      "name": {
+        "zh": "雪",
+        "en": "Snow"
+      },
+      "keywords": [
+        "snow",
+        "snowflake",
+        "雪",
+        "冬",
+        "winter",
+        "cold",
+        "雪花",
+        "冬天"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "stroke_paths": [
+          "M12 3.75V20.25M4.85 7.9L19.15 16.1M4.85 16.1L19.15 7.9"
+        ],
+        "accent_paths": [
+          "M9.75 5.25L12 7.25L14.25 5.25M9.75 18.75L12 16.75L14.25 18.75"
+        ]
+      }
+    },
+    {
+      "id": "sprout",
+      "category": "nature",
+      "name": {
+        "zh": "新芽",
+        "en": "Sprout"
+      },
+      "keywords": [
+        "sprout",
+        "seed",
+        "芽",
+        "成长",
+        "growth",
+        "new",
+        "新芽"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M12 13.5C12 10.5 10 8.25 5.75 8.25C5.75 11.5 8 13.5 12 13.5ZM12 11.5C12 8 14.25 5.25 18.75 5.25C18.75 9 16.25 11.5 12 11.5Z"
+        ],
+        "stroke_paths": [
+          "M12 13.5C12 10.5 10 8.25 5.75 8.25C5.75 11.5 8 13.5 12 13.5ZM12 11.5C12 8 14.25 5.25 18.75 5.25C18.75 9 16.25 11.5 12 11.5ZM12 20.25V11.5"
+        ],
+        "accent_paths": [
+          "M8.25 20.25H15.75"
+        ]
+      }
+    },
+    {
+      "id": "cat",
+      "category": "nature",
+      "name": {
+        "zh": "猫",
+        "en": "Cat"
+      },
+      "keywords": [
+        "cat",
+        "猫",
+        "宠物",
+        "pet",
+        "kitten",
+        "animal",
+        "猫咪"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M5.25 4.75L9 8.25C10 7.9 11 7.75 12 7.75S14 7.9 15 8.25L18.75 4.75V12.5C18.75 16.5 15.75 19.25 12 19.25S5.25 16.5 5.25 12.5Z"
+        ],
+        "stroke_paths": [
+          "M5.25 4.75L9 8.25C10 7.9 11 7.75 12 7.75S14 7.9 15 8.25L18.75 4.75V12.5C18.75 16.5 15.75 19.25 12 19.25S5.25 16.5 5.25 12.5Z"
+        ],
+        "accent_paths": [
+          "M11 14.25L12 15.25L13 14.25"
+        ],
+        "accent_fill_paths": [
+          "M8.55 12A0.95 0.95 0 1 0 10.45 12A0.95 0.95 0 1 0 8.55 12ZM13.55 12A0.95 0.95 0 1 0 15.45 12A0.95 0.95 0 1 0 13.55 12Z"
+        ]
+      }
+    },
+    {
+      "id": "paw",
+      "category": "nature",
+      "name": {
+        "zh": "爪印",
+        "en": "Paw"
+      },
+      "keywords": [
+        "paw",
+        "pet",
+        "爪",
+        "宠物",
+        "animal",
+        "track",
+        "爪印"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M12 12.5C14.5 12.5 16.75 15 16.75 17C16.75 18.5 15.5 19.25 14.25 19.25C13.25 19.25 12.75 18.75 12 18.75S10.75 19.25 9.75 19.25C8.5 19.25 7.25 18.5 7.25 17C7.25 15 9.5 12.5 12 12.5Z"
+        ],
+        "stroke_paths": [
+          "M12 12.5C14.5 12.5 16.75 15 16.75 17C16.75 18.5 15.5 19.25 14.25 19.25C13.25 19.25 12.75 18.75 12 18.75S10.75 19.25 9.75 19.25C8.5 19.25 7.25 18.5 7.25 17C7.25 15 9.5 12.5 12 12.5ZM4.75 11.5A1.5 2 0 1 0 7.75 11.5A1.5 2 0 1 0 4.75 11.5ZM8.15 7.25A1.6 2.25 0 1 0 11.35 7.25A1.6 2.25 0 1 0 8.15 7.25ZM12.65 7.25A1.6 2.25 0 1 0 15.85 7.25A1.6 2.25 0 1 0 12.65 7.25ZM16.25 11.5A1.5 2 0 1 0 19.25 11.5A1.5 2 0 1 0 16.25 11.5Z"
+        ]
+      }
+    },
+    {
+      "id": "wave",
+      "category": "ocean",
+      "name": {
+        "zh": "海浪",
+        "en": "Wave"
+      },
+      "keywords": [
+        "wave",
+        "sea",
+        "ocean",
+        "海浪",
+        "海",
+        "tide",
+        "海洋"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M3.75 12q2.06-1.75 4.125 0t4.125 0t4.125 0t4.125 0V17q-2.06 1.75-4.125 0t-4.125 0t-4.125 0t-4.125 0Z"
+        ],
+        "stroke_paths": [
+          "M3.75 12q2.06-1.75 4.125 0t4.125 0t4.125 0t4.125 0M3.75 17q2.06-1.75 4.125 0t4.125 0t4.125 0t4.125 0"
+        ],
+        "accent_paths": [
+          "M3.75 7q2.06-1.75 4.125 0t4.125 0t4.125 0t4.125 0"
+        ]
+      }
+    },
+    {
+      "id": "boat",
+      "category": "ocean",
+      "name": {
+        "zh": "纸船",
+        "en": "Paper Boat"
+      },
+      "keywords": [
+        "paper",
+        "boat",
+        "纸船",
+        "折纸",
+        "origami",
+        "sail",
+        "ship",
+        "帆船"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M3.25 13.25H20.75L17.5 18.75H6.5Z"
+        ],
+        "stroke_paths": [
+          "M3.25 13.25H20.75L17.5 18.75H6.5ZM6.75 13.25L12 4.25L17.25 13.25"
+        ],
+        "accent_paths": [
+          "M12 4.25V13.25"
+        ]
+      }
+    },
+    {
+      "id": "anchor",
+      "category": "ocean",
+      "name": {
+        "zh": "锚",
+        "en": "Anchor"
+      },
+      "keywords": [
+        "anchor",
+        "锚",
+        "港",
+        "harbor",
+        "port",
+        "dock",
+        "船锚",
+        "港湾"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M10 5.75A2 2 0 1 0 14 5.75A2 2 0 1 0 10 5.75Z"
+        ],
+        "stroke_paths": [
+          "M10 5.75A2 2 0 1 0 14 5.75A2 2 0 1 0 10 5.75ZM12 7.75V20.25M4.25 13.75C4.25 17.5 7.5 20.25 12 20.25S19.75 17.5 19.75 13.75"
+        ],
+        "accent_paths": [
+          "M8.25 11H15.75"
+        ]
+      }
+    },
+    {
+      "id": "lighthouse",
+      "category": "ocean",
+      "name": {
+        "zh": "灯塔",
+        "en": "Lighthouse"
+      },
+      "keywords": [
+        "lighthouse",
+        "灯塔",
+        "指引",
+        "beacon",
+        "guide",
+        "coast"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M9.5 9.75H14.5L16 20.25H8Z"
+        ],
+        "stroke_paths": [
+          "M9.5 9.75H14.5L16 20.25H8ZM9.5 9.75V6.75L12 4.5L14.5 6.75V9.75"
+        ],
+        "accent_paths": [
+          "M6.75 6.25L3.75 5M6.75 8.5L3.75 9.75M17.25 6.25L20.25 5M17.25 8.5L20.25 9.75M8.9 14H15.1"
+        ]
+      }
+    },
+    {
+      "id": "shell",
+      "category": "ocean",
+      "name": {
+        "zh": "贝壳",
+        "en": "Shell"
+      },
+      "keywords": [
+        "shell",
+        "贝壳",
+        "收藏",
+        "beach",
+        "collect",
+        "sea",
+        "海滩"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M12 19.75L5 14.75A7.75 7.75 0 1 1 19 14.75Z"
+        ],
+        "stroke_paths": [
+          "M12 19.75L5 14.75A7.75 7.75 0 1 1 19 14.75Z"
+        ],
+        "accent_paths": [
+          "M12 19.75V5.5M12 19.75L8.25 6.75M12 19.75L15.75 6.75"
+        ]
+      }
+    },
+    {
+      "id": "whale",
+      "category": "ocean",
+      "name": {
+        "zh": "鲸",
+        "en": "Whale"
+      },
+      "keywords": [
+        "whale",
+        "鲸",
+        "鲸鱼",
+        "ocean",
+        "deep",
+        "marine",
+        "深海"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M3.75 12H12.5C14.5 12 16.25 11 16.75 9.25H18.75C18.75 15.5 15.25 18.5 10.75 18.5C6.75 18.5 3.75 15.75 3.75 12Z"
+        ],
+        "stroke_paths": [
+          "M16.75 9.25C16.25 11 14.5 12 12.5 12H3.75C3.75 15.75 6.75 18.5 10.75 18.5C15.25 18.5 18.75 15.5 18.75 9.25M17.75 9.25C16 9.25 14.75 8 14.75 6.25C16.25 6.25 17.25 6.9 17.75 8C18.25 6.9 19.25 6.25 20.75 6.25C20.75 8 19.5 9.25 17.75 9.25Z"
+        ],
+        "accent_paths": [
+          "M8.5 9.25V7.5M8.5 7.5C8.5 6 7.5 5.25 6.25 5.25M8.5 7.5C8.5 6 9.5 5.25 10.75 5.25"
+        ],
+        "accent_fill_paths": [
+          "M6.35 14.75A0.9 0.9 0 1 0 8.15 14.75A0.9 0.9 0 1 0 6.35 14.75Z"
+        ]
+      }
+    },
+    {
+      "id": "fish",
+      "category": "ocean",
+      "name": {
+        "zh": "鱼",
+        "en": "Fish"
+      },
+      "keywords": [
+        "fish",
+        "鱼",
+        "swim",
+        "aquarium",
+        "sea",
+        "游鱼",
+        "海洋"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M3.5 12C5.5 8.5 8.5 7 11.5 7C14.5 7 16.5 8.75 17.75 11L20.75 8.25V15.75L17.75 13C16.5 15.25 14.5 17 11.5 17C8.5 17 5.5 15.5 3.5 12Z"
+        ],
+        "stroke_paths": [
+          "M3.5 12C5.5 8.5 8.5 7 11.5 7C14.5 7 16.5 8.75 17.75 11L20.75 8.25V15.75L17.75 13C16.5 15.25 14.5 17 11.5 17C8.5 17 5.5 15.5 3.5 12Z"
+        ],
+        "accent_paths": [
+          "M12.5 9.75C13.5 11.25 13.5 12.75 12.5 14.25"
+        ],
+        "accent_fill_paths": [
+          "M7.05 11.25A0.95 0.95 0 1 0 8.95 11.25A0.95 0.95 0 1 0 7.05 11.25Z"
+        ]
+      }
+    },
+    {
+      "id": "bottle",
+      "category": "ocean",
+      "name": {
+        "zh": "漂流瓶",
+        "en": "Message Bottle"
+      },
+      "keywords": [
+        "bottle",
+        "message",
+        "漂流瓶",
+        "信",
+        "letter",
+        "drift",
+        "sea",
+        "信件"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M10.25 3.75H13.75V7.25C13.75 8.5 16.75 9.25 16.75 12V18.25A2 2 0 0 1 14.75 20.25H9.25A2 2 0 0 1 7.25 18.25V12C7.25 9.25 10.25 8.5 10.25 7.25Z"
+        ],
+        "stroke_paths": [
+          "M10.25 3.75H13.75V7.25C13.75 8.5 16.75 9.25 16.75 12V18.25A2 2 0 0 1 14.75 20.25H9.25A2 2 0 0 1 7.25 18.25V12C7.25 9.25 10.25 8.5 10.25 7.25Z"
+        ],
+        "accent_paths": [
+          "M11 12H13A0.75 0.75 0 0 1 13.75 12.75V16.25A0.75 0.75 0 0 1 13 17H11A0.75 0.75 0 0 1 10.25 16.25V12.75A0.75 0.75 0 0 1 11 12ZM10.25 5.75H13.75"
+        ]
+      }
+    },
+    {
+      "id": "plane",
+      "category": "ocean",
+      "name": {
+        "zh": "纸飞机",
+        "en": "Paper Plane"
+      },
+      "keywords": [
+        "paper",
+        "plane",
+        "send",
+        "纸飞机",
+        "发送",
+        "fly",
+        "mail"
+      ],
+      "ref": "send"
+    },
+    {
+      "id": "jelly",
+      "category": "ocean",
+      "name": {
+        "zh": "水母",
+        "en": "Jellyfish"
+      },
+      "keywords": [
+        "jellyfish",
+        "水母",
+        "ocean",
+        "glow",
+        "marine",
+        "海洋"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M5.25 12.25A6.75 6.75 0 0 1 18.75 12.25V13.25H5.25Z"
+        ],
+        "stroke_paths": [
+          "M5.25 12.25A6.75 6.75 0 0 1 18.75 12.25V13.25H5.25Z"
+        ],
+        "accent_paths": [
+          "M8.25 13.25V16.5C8.25 18 6.75 18.25 6.75 20M12 13.25V20.25M15.75 13.25V16.5C15.75 18 17.25 18.25 17.25 20"
+        ],
+        "accent_fill_paths": [
+          "M9.1 9.75A0.9 0.9 0 1 0 10.9 9.75A0.9 0.9 0 1 0 9.1 9.75ZM13.1 9.75A0.9 0.9 0 1 0 14.9 9.75A0.9 0.9 0 1 0 13.1 9.75Z"
+        ]
+      }
+    },
+    {
+      "id": "compass",
+      "category": "ocean",
+      "name": {
+        "zh": "罗盘",
+        "en": "Compass"
+      },
+      "keywords": [
+        "compass",
+        "罗盘",
+        "方向",
+        "探索",
+        "direction",
+        "explore",
+        "nav"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M3.75 12A8.25 8.25 0 1 0 20.25 12A8.25 8.25 0 1 0 3.75 12Z"
+        ],
+        "stroke_paths": [
+          "M3.75 12A8.25 8.25 0 1 0 20.25 12A8.25 8.25 0 1 0 3.75 12Z"
+        ],
+        "accent_paths": [
+          "M15.25 8.75L13.25 13.25L8.75 15.25L10.75 10.75Z"
+        ]
+      }
+    },
+    {
+      "id": "buoy",
+      "category": "ocean",
+      "name": {
+        "zh": "救生圈",
+        "en": "Lifebuoy"
+      },
+      "keywords": [
+        "lifebuoy",
+        "救生圈",
+        "帮助",
+        "help",
+        "rescue",
+        "safety"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M3.75 12A8.25 8.25 0 1 0 20.25 12A8.25 8.25 0 1 0 3.75 12ZM8.5 12A3.5 3.5 0 1 0 15.5 12A3.5 3.5 0 1 0 8.5 12Z"
+        ],
+        "stroke_paths": [
+          "M3.75 12A8.25 8.25 0 1 0 20.25 12A8.25 8.25 0 1 0 3.75 12ZM8.5 12A3.5 3.5 0 1 0 15.5 12A3.5 3.5 0 1 0 8.5 12Z"
+        ],
+        "accent_paths": [
+          "M6.2 6.2L9.5 9.5M17.8 6.2L14.5 9.5M6.2 17.8L9.5 14.5M17.8 17.8L14.5 14.5"
+        ]
+      }
+    },
+    {
+      "id": "star",
+      "category": "symbol",
+      "name": {
+        "zh": "星标",
+        "en": "Star"
+      },
+      "keywords": [
+        "star",
+        "星",
+        "收藏",
+        "重要",
+        "favorite",
+        "important",
+        "highlight",
+        "星标"
+      ],
+      "ref": "star"
+    },
+    {
+      "id": "sparkles",
+      "category": "symbol",
+      "name": {
+        "zh": "闪光",
+        "en": "Sparkles"
+      },
+      "keywords": [
+        "sparkles",
+        "ai",
+        "闪光",
+        "灵感",
+        "magic",
+        "inspire"
+      ],
+      "ref": "sparkles"
+    },
+    {
+      "id": "zap",
+      "category": "symbol",
+      "name": {
+        "zh": "闪电",
+        "en": "Lightning"
+      },
+      "keywords": [
+        "zap",
+        "bolt",
+        "闪电",
+        "快",
+        "fast",
+        "power",
+        "快捷"
+      ],
+      "ref": "zap"
+    },
+    {
+      "id": "tag",
+      "category": "symbol",
+      "name": {
+        "zh": "标签",
+        "en": "Tag"
+      },
+      "keywords": [
+        "tag",
+        "label",
+        "标签",
+        "badge",
+        "category",
+        "分类"
+      ],
+      "ref": "tag"
+    },
+    {
+      "id": "pushpin",
+      "category": "symbol",
+      "name": {
+        "zh": "置顶",
+        "en": "Pin"
+      },
+      "keywords": [
+        "pin",
+        "pushpin",
+        "置顶",
+        "图钉",
+        "top",
+        "sticky"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M9 4.25H15L14.25 10L17.25 13.25H6.75L9.75 10Z"
+        ],
+        "stroke_paths": [
+          "M9 4.25H15L14.25 10L17.25 13.25H6.75L9.75 10Z"
+        ],
+        "accent_paths": [
+          "M12 13.25V20.25"
+        ]
+      }
+    },
+    {
+      "id": "lock",
+      "category": "symbol",
+      "name": {
+        "zh": "私密",
+        "en": "Private"
+      },
+      "keywords": [
+        "lock",
+        "private",
+        "锁",
+        "私密",
+        "secret",
+        "secure",
+        "锁定"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M7.5 10.25H16.5A2.25 2.25 0 0 1 18.75 12.5V18A2.25 2.25 0 0 1 16.5 20.25H7.5A2.25 2.25 0 0 1 5.25 18V12.5A2.25 2.25 0 0 1 7.5 10.25Z"
+        ],
+        "stroke_paths": [
+          "M7.5 10.25H16.5A2.25 2.25 0 0 1 18.75 12.5V18A2.25 2.25 0 0 1 16.5 20.25H7.5A2.25 2.25 0 0 1 5.25 18V12.5A2.25 2.25 0 0 1 7.5 10.25ZM8.25 10.25V7.5A3.75 3.75 0 0 1 15.75 7.5V10.25"
+        ],
+        "accent_paths": [
+          "M12 14.25V16.25"
+        ]
+      }
+    },
+    {
+      "id": "shield",
+      "category": "symbol",
+      "name": {
+        "zh": "安全",
+        "en": "Security"
+      },
+      "keywords": [
+        "shield",
+        "safe",
+        "安全",
+        "保护",
+        "protect",
+        "guard"
+      ],
+      "ref": "shield-check"
+    },
+    {
+      "id": "eye",
+      "category": "symbol",
+      "name": {
+        "zh": "关注",
+        "en": "Watch"
+      },
+      "keywords": [
+        "eye",
+        "watch",
+        "关注",
+        "查看",
+        "view",
+        "focus",
+        "monitor"
+      ],
+      "ref": "eye"
+    },
+    {
+      "id": "bell",
+      "category": "symbol",
+      "name": {
+        "zh": "提醒",
+        "en": "Reminder"
+      },
+      "keywords": [
+        "bell",
+        "notify",
+        "提醒",
+        "通知",
+        "alert",
+        "alarm"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M6.25 16.25V11A5.75 5.75 0 0 1 17.75 11V16.25L19.25 18.25H4.75Z"
+        ],
+        "stroke_paths": [
+          "M6.25 16.25V11A5.75 5.75 0 0 1 17.75 11V16.25L19.25 18.25H4.75ZM12 3.75V5.25"
+        ],
+        "accent_paths": [
+          "M10 20.75H14"
+        ]
+      }
+    },
+    {
+      "id": "crown",
+      "category": "symbol",
+      "name": {
+        "zh": "精选",
+        "en": "Featured"
+      },
+      "keywords": [
+        "crown",
+        "best",
+        "精选",
+        "皇冠",
+        "vip",
+        "top"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M4.25 8.25L8.25 12L12 5.75L15.75 12L19.75 8.25L18.25 17.75H5.75Z"
+        ],
+        "stroke_paths": [
+          "M4.25 8.25L8.25 12L12 5.75L15.75 12L19.75 8.25L18.25 17.75H5.75Z"
+        ],
+        "accent_paths": [
+          "M6.25 20.25H17.75"
+        ]
+      }
+    },
+    {
+      "id": "gem",
+      "category": "symbol",
+      "name": {
+        "zh": "珍藏",
+        "en": "Treasure"
+      },
+      "keywords": [
+        "gem",
+        "diamond",
+        "珍藏",
+        "钻石",
+        "precious",
+        "rare"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "fill_paths": [
+          "M7.75 4.75H16.25L20.25 9.75H3.75Z"
+        ],
+        "stroke_paths": [
+          "M7.75 4.75H16.25L20.25 9.75H3.75L12 19.75L3.75 9.75ZM3.75 9.75H20.25"
+        ],
+        "accent_paths": [
+          "M9.25 9.75L12 19.75L14.75 9.75"
+        ]
+      }
+    },
+    {
+      "id": "infinity",
+      "category": "symbol",
+      "name": {
+        "zh": "长期",
+        "en": "Evergreen"
+      },
+      "keywords": [
+        "infinity",
+        "无限",
+        "长期",
+        "longterm",
+        "loop"
+      ],
+      "spec": {
+        "view_box": "0 0 24 24",
+        "stroke_paths": [
+          "M12 12C10.5 9.75 9 8.25 7 8.25A3.75 3.75 0 0 0 7 15.75C9 15.75 10.5 14.25 12 12C13.5 9.75 15 8.25 17 8.25A3.75 3.75 0 0 1 17 15.75C15 15.75 13.5 14.25 12 12Z"
+        ]
+      }
+    }
+  ]
+}
