@@ -11,8 +11,8 @@
   "author": "Block Community",
   "repo": "blockmd-plugins/block-file-icons",
   "summary": {
-    "zh": "为侧栏笔记和文件夹更换 96 款双色矢量图标，支持 7 种柔和色调与标签页同步显示",
-    "en": "Customize sidebar notes and folders with 96 two-tone icons, 7 soft tints, and optional tab sync"
+    "zh": "为笔记本、侧栏笔记和文件夹更换 96 款双色矢量图标，支持 7 种柔和色调与标签页同步显示",
+    "en": "Customize notebooks, sidebar notes, and folders with 96 two-tone icons, 7 soft tints, and optional tab sync"
   },
   "entry": {
     "command": [
@@ -31,8 +31,8 @@
       "en": "Save sidebar icon picker and tab sync preferences"
     },
     "ui:sidebar": {
-      "zh": "读取和更新当前笔记本的侧栏文件与文件夹自定义图标",
-      "en": "Read and update custom icons for sidebar files and folders"
+      "zh": "读取和更新当前笔记本、侧栏文件与文件夹自定义图标",
+      "en": "Read and update custom icons for notebooks, sidebar files, and folders"
     }
   },
   "surfaces": [

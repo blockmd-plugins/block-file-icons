@@ -200,7 +200,7 @@ class FileIconsPlugin:
                 {
                     "kind": "switch",
                     "id": "picker",
-                    "label": self._tr("点击侧栏行首图标更换", "Click sidebar row icon to change"),
+                    "label": self._tr("点击笔记本与侧栏图标更换", "Click notebook and sidebar icons to change"),
                     "value": bool(self.prefs.get("picker", True)),
                 },
                 {
@@ -232,7 +232,7 @@ class FileIconsPlugin:
         ]
 
         if entries:
-            sorted_paths = sorted(entries.keys())
+            sorted_paths = sorted(entries.keys(), key=lambda p: (0 if p == "." else 1, p))
             limit = 12
             if len(sorted_paths) > limit:
                 shown_paths = sorted_paths[: limit - 1]
@@ -247,9 +247,15 @@ class FileIconsPlugin:
                 icon_id = str(item.get("icon") or "").strip()
                 tint = str(item.get("tint") or "none").strip()
                 val_text = f"{self._icon_label(icon_id)} · {self._tint_label(tint)}"
-                row = {"label": rel_path, "value": val_text}
+                if rel_path == ".":
+                    label = self._tr("笔记本图标", "Notebook icon")
+                    tip = notebook_meta or notebook_root or label
+                else:
+                    label = rel_path
+                    tip = rel_path
+                row = {"label": label, "value": val_text}
                 if self.kv_tooltip:
-                    row["tooltip"] = rel_path
+                    row["tooltip"] = tip
                 rows.append(row)
 
             if remaining > 0:
@@ -273,8 +279,8 @@ class FileIconsPlugin:
             notebook_items.append({
                 "kind": "log_list",
                 "empty_text": self._tr(
-                    "当前笔记本尚未设置自定义图标，点击侧栏文件或文件夹行首图标即可更换。",
-                    "No custom icons set in this notebook. Click any sidebar file or folder icon to customize it.",
+                    "当前笔记本尚未设置自定义图标，点击侧栏或顶栏中的笔记本、文件或文件夹图标即可更换。",
+                    "No custom icons set in this notebook. Click any notebook, file, or folder icon in the sidebar or titlebar to customize it.",
                 ),
                 "entries": [],
             })
