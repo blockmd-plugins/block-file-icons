@@ -21,7 +21,20 @@
       "main.py"
     ]
   },
-  "permissions": [],
+  "permissions": [
+    "storage",
+    "ui:sidebar"
+  ],
+  "permission_reasons": {
+    "storage": {
+      "zh": "保存图标选择器的交互开关与标签页同步偏好设置",
+      "en": "Save sidebar icon picker and tab sync preferences"
+    },
+    "ui:sidebar": {
+      "zh": "读取和更新当前笔记本的侧栏文件与文件夹自定义图标",
+      "en": "Read and update custom icons for sidebar files and folders"
+    }
+  },
   "surfaces": [
     "settings_page"
   ],
