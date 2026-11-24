@@ -1,4 +1,8 @@
-# Custom Icons
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/card-en-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/card-en-light.png">
+  <img alt="Custom Icons" src="assets/card-en-light.png">
+</picture>
 
 Customize Block notebooks, sidebar notes, and folders with 96 two-tone vector icons and 7 tints.
 

@@ -1,4 +1,8 @@
-# 自定义图标
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/card-zh-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/card-zh-light.png">
+  <img alt="自定义图标" src="assets/card-zh-light.png">
+</picture>
 
 为 Block 笔记本、侧栏笔记和文件夹提供 96 款双色矢量图标与 7 种色调。
 
