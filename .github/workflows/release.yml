@@ -425,7 +425,7 @@ jobs:
 
             const child = spawn(process.execPath, [runnerPath], {
               cwd: pkgDir,
-              env: { ...process.env, BLOCK_PLUGIN_DIR: pkgDir },
+              env: { ...process.env, BLOCK_PLUGIN_DIR: path.resolve(pkgDir) },
               stdio: ["pipe", "pipe", "pipe"],
             });
 
