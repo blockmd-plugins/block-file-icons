@@ -42,508 +42,821 @@ jobs:
           REF_NAME: ${{ github.ref_name }}
           FORCE: ${{ inputs.force == true && 'true' || 'false' }}
         run: |
-          python3 - <<'PY'
-          import datetime
-          import json
-          import os
-          from pathlib import Path
-          from queue import Empty, Queue
-          import re
-          import shutil
-          import subprocess
-          import sys
-          from tempfile import TemporaryDirectory
-          from threading import Thread
+          node --input-type=module - <<'JS'
+          import { execFileSync, spawn } from "node:child_process";
+          import fs from "node:fs";
+          import os from "node:os";
+          import path from "node:path";
+          import { pathToFileURL } from "node:url";
 
-          CHINESE = re.compile(
-              r"[\u3000-\u303f\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff"
-              r"\ufe10-\ufe1f\ufe30-\ufe4f\uff00-\uffef"
-              r"\U00020000-\U0002ffff\U00030000-\U000323af]"
-          )
-          HAN = re.compile(
-              r"[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff"
-              r"\U00020000-\U0002ffff\U00030000-\U000323af]"
-          )
-          EMOJI = re.compile(
-              r"[©®‼⁉™ℹ↔-↙↩↪⌚-⌛⌨⏏⏩-⏳⏸-⏺Ⓜ▪▫▶◀◻-◾"
-              r"\u2600-\u27bf⤴⤵⬅-⬇⬛⬜⭐⭕〰〽㊗㊙"
-              r"\u20e3\ufe00-\ufe0f\U0001f000-\U0001faff]"
-          )
-          MAX_README_BYTES = 512 * 1024
+          const CHINESE = /[\u3000-\u303f\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\ufe10-\ufe1f\ufe30-\ufe4f\uff00-\uffef\u{20000}-\u{2ffff}\u{30000}-\u{323af}]/u;
+          const HAN = /[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\u{20000}-\u{2ffff}\u{30000}-\u{323af}]/u;
+          const EMOJI = /[©®‼⁉™ℹ↔-↙↩↪⌚-⌛⌨⏏⏩-⏳⏸-⏺Ⓜ▪▫▶◀◻-◾\u2600-\u27bf⤴⤵⬅-⬇⬛⬜⭐⭕〰〽㊗㊙\u20e3\ufe00-\ufe0f\u{1f000}-\u{1faff}]/u;
+          const MAX_README_BYTES = 512 * 1024;
+          const utf8Decoder = new TextDecoder("utf-8", { fatal: true });
 
-          def require(condition, message):
-              if not condition:
-                  raise ValueError(message)
+          function requireCond(condition, message) {
+            if (!condition) {
+              throw new Error(message);
+            }
+          }
 
-          def check_text(value, locale, context):
-              if isinstance(value, str):
-                  require(not EMOJI.search(value), f"{context}: emoji in {value!r}")
-                  if locale.lower().startswith("en"):
-                      require(not CHINESE.search(value), f"{context}: Chinese text in {value!r}")
-              elif isinstance(value, dict):
-                  for key, child in value.items():
-                      check_text(key, "zh", f"{context}.<key>")
-                      check_text(child, locale, f"{context}.{key}")
-              elif isinstance(value, list):
-                  for index, child in enumerate(value):
-                      check_text(child, locale, f"{context}[{index}]")
+          function isPlainObject(value) {
+            return value !== null && typeof value === "object" && !Array.isArray(value);
+          }
 
-          def check_contributes_en(value, context="manifest.contributes"):
-              if isinstance(value, dict):
-                  for key, child in value.items():
-                      if key == "en":
-                          check_text(child, "en", f"{context}.en")
-                      else:
-                          check_contributes_en(child, f"{context}.{key}")
-              elif isinstance(value, list):
-                  for index, child in enumerate(value):
-                      check_contributes_en(child, f"{context}[{index}]")
+          function checkText(value, locale, context) {
+            if (typeof value === "string") {
+              requireCond(!EMOJI.test(value), `${context}: emoji in ${JSON.stringify(value)}`);
+              if (String(locale).toLowerCase().startsWith("en")) {
+                requireCond(!CHINESE.test(value), `${context}: Chinese text in ${JSON.stringify(value)}`);
+              }
+            } else if (Array.isArray(value)) {
+              for (let i = 0; i < value.length; i += 1) {
+                checkText(value[i], locale, `${context}[${i}]`);
+              }
+            } else if (isPlainObject(value)) {
+              for (const [key, child] of Object.entries(value)) {
+                checkText(key, "zh", `${context}.<key>`);
+                checkText(child, locale, `${context}.${key}`);
+              }
+            }
+          }
 
-          def declared_surfaces(manifest):
-              surfaces = list(manifest.get("surfaces") or [])
-              contributes = manifest.get("contributes") or {}
-              for sec in contributes.get("settings_sections") or []:
-                  surfaces.append(f"settings_section:{sec['id']}")
-              for panel in contributes.get("panels") or []:
-                  surfaces.append(f"panel:{panel['id']}")
-              for dialog in contributes.get("dialogs") or []:
-                  surfaces.append(f"dialog:{dialog['id']}")
-              require(surfaces, "manifest must declare at least one surface")
-              return list(dict.fromkeys(surfaces))
+          function checkContributesEn(value, context = "manifest.contributes") {
+            if (Array.isArray(value)) {
+              for (let i = 0; i < value.length; i += 1) {
+                checkContributesEn(value[i], `${context}[${i}]`);
+              }
+            } else if (isPlainObject(value)) {
+              for (const [key, child] of Object.entries(value)) {
+                if (key === "en") {
+                  checkText(child, "en", `${context}.en`);
+                } else {
+                  checkContributesEn(child, `${context}.${key}`);
+                }
+              }
+            }
+          }
 
-          def check_no_symlinks_tree(pkg_dir):
-              require(not os.path.islink(pkg_dir) and pkg_dir.is_dir(), f"Release package dir must be a non-symlink directory: {pkg_dir}")
-              for root_dir, dir_names, file_names in os.walk(pkg_dir, followlinks=False):
-                  for name in dir_names + file_names:
-                      full_path = os.path.join(root_dir, name)
-                      require(
-                          not os.path.islink(full_path),
-                          f"Symlink is not allowed in release package: {os.path.relpath(full_path, pkg_dir)}",
-                      )
+          function declaredSurfaces(manifest) {
+            const surfaces = Array.isArray(manifest.surfaces) ? [...manifest.surfaces] : [];
+            const contributes = manifest.contributes || {};
+            for (const sec of contributes.settings_sections || []) {
+              surfaces.push(`settings_section:${sec.id}`);
+            }
+            for (const panel of contributes.panels || []) {
+              surfaces.push(`panel:${panel.id}`);
+            }
+            for (const dialog of contributes.dialogs || []) {
+              surfaces.push(`dialog:${dialog.id}`);
+            }
+            requireCond(surfaces.length > 0, "manifest must declare at least one surface");
+            return [...new Set(surfaces)];
+          }
 
-          def strip_html_comments(text):
-              text = re.sub(r"<!--.*?-->", "", text, flags=re.S)
-              text = re.sub(r"<!--.*$", "", text, flags=re.S)
-              return text.strip()
+          function checkNoSymlinksAndNoPy(pkgDir) {
+            const rootStat = fs.lstatSync(pkgDir);
+            requireCond(!rootStat.isSymbolicLink() && rootStat.isDirectory(), `Release package dir must be a non-symlink directory: ${pkgDir}`);
+            const stack = [pkgDir];
+            while (stack.length > 0) {
+              const cur = stack.pop();
+              for (const entry of fs.readdirSync(cur, { withFileTypes: true })) {
+                const fullPath = path.join(cur, entry.name);
+                const st = fs.lstatSync(fullPath);
+                const rel = path.relative(pkgDir, fullPath);
+                requireCond(!st.isSymbolicLink(), `Symlink is not allowed in release package: ${rel}`);
+                if (st.isDirectory()) {
+                  stack.push(fullPath);
+                } else if (st.isFile()) {
+                  requireCond(!entry.name.toLowerCase().endsWith(".py"), `Python file is not allowed in JS plugin package: ${rel}`);
+                }
+              }
+            }
+          }
 
-          def read_strict_readme(pkg_dir, filename):
-              path = pkg_dir / filename
-              p = str(path)
-              require(not os.path.islink(p) and os.path.isfile(p), f"{filename} must be a non-symlink regular file")
-              raw = path.read_bytes()
-              require(len(raw) <= MAX_README_BYTES, f"{filename} exceeds {MAX_README_BYTES} bytes")
-              try:
-                  text = raw.decode("utf-8")
-              except UnicodeDecodeError as exc:
-                  raise ValueError(f"{filename} must be valid UTF-8: {exc}") from None
-              text = text.lstrip("\ufeff").strip()
-              require(bool(text), f"{filename} must not be empty")
-              return text
+          function stripHtmlComments(text) {
+            return text.replace(/<!--[\s\S]*?-->/g, "").replace(/<!--[\s\S]*$/g, "").trim();
+          }
 
-          def resolve_entry_command(pkg_dir, manifest):
-              entry = manifest.get("entry")
-              require(isinstance(entry, dict), "manifest.entry must be an object")
-              raw_cmd = entry.get("command")
-              require(isinstance(raw_cmd, list) and len(raw_cmd) > 0, "manifest.entry.command must be a non-empty array")
-              for idx, part in enumerate(raw_cmd):
-                  require(isinstance(part, str), f"manifest.entry.command[{idx}] must be a string")
-              cmd0 = raw_cmd[0]
-              require(cmd0.strip() != "", "manifest.entry.command[0] must not be empty")
-              require(cmd0 == cmd0.strip(), "manifest.entry.command[0] must not have leading/trailing whitespace")
-              require("\x00" not in cmd0 and ":" not in cmd0, f"Invalid entry.command[0]: {cmd0!r}")
+          function readStrictReadme(pkgDir, filename) {
+            const filePath = path.join(pkgDir, filename);
+            const st = fs.lstatSync(filePath, { throwIfNoEntry: false });
+            requireCond(Boolean(st && !st.isSymbolicLink() && st.isFile()), `${filename} must be a non-symlink regular file`);
+            const raw = fs.readFileSync(filePath);
+            requireCond(raw.length <= MAX_README_BYTES, `${filename} exceeds ${MAX_README_BYTES} bytes`);
+            let text;
+            try {
+              text = utf8Decoder.decode(raw);
+            } catch (err) {
+              throw new Error(`${filename} must be valid UTF-8: ${err.message}`);
+            }
+            text = text.replace(/^\ufeff/, "").trim();
+            requireCond(Boolean(text), `${filename} must not be empty`);
+            return text;
+          }
 
-              normalized = cmd0.replace("\\", "/")
-              require(not normalized.startswith("/") and not os.path.isabs(cmd0), f"entry.command[0] must not be an absolute path: {cmd0!r}")
-              raw_parts = [p for p in normalized.split("/") if p != ""]
-              require(".." not in raw_parts, f"entry.command[0] must not contain '..': {cmd0!r}")
-              require(normalized not in (".", "./") and raw_parts != ["."], f"entry.command[0] must not be '.': {cmd0!r}")
+          function resolveEntryJS(pkgDir, manifest) {
+            const entry = manifest.entry;
+            requireCond(isPlainObject(entry), "manifest.entry must be an object");
+            requireCond(!entry.command && !entry.wasm, "manifest.entry must specify only entry.js");
+            const rawJS = entry.js;
+            requireCond(typeof rawJS === "string" && rawJS.trim() !== "", "manifest.entry.js must be a non-empty string");
+            requireCond(rawJS === rawJS.trim(), "manifest.entry.js must not have leading/trailing whitespace");
+            requireCond(!rawJS.includes("\0") && !rawJS.includes("\\") && !rawJS.includes(":"), `Invalid manifest.entry.js: ${JSON.stringify(rawJS)}`);
+            requireCond(!rawJS.startsWith("/"), `manifest.entry.js must not be an absolute path: ${JSON.stringify(rawJS)}`);
+            const parts = rawJS.split("/").filter((p) => p !== "" && p !== ".");
+            requireCond(parts.length > 0 && !parts.includes(".."), `Invalid relative manifest.entry.js: ${JSON.stringify(rawJS)}`);
+            const ext = path.extname(rawJS).toLowerCase();
+            requireCond(ext === ".js" || ext === ".mjs", `manifest.entry.js must end with .js or .mjs: ${JSON.stringify(rawJS)}`);
 
-              if "/" in normalized or normalized.startswith("."):
-                  pkg_root = pkg_dir.resolve()
-                  rel_parts = [p for p in raw_parts if p != "."]
-                  require(bool(rel_parts), f"Invalid relative entry.command[0]: {cmd0!r}")
-                  cur = pkg_dir
-                  for part in rel_parts[:-1]:
-                      cur = cur / part
-                      require(not os.path.islink(cur) and cur.is_dir(), f"entry.command[0] parent missing or symlink: {cmd0!r}")
-                  target = cur / rel_parts[-1]
-                  require(not os.path.islink(target) and target.is_file(), f"entry.command[0] must be a non-symlink regular file in dist package: {cmd0!r}")
-                  resolved = target.resolve()
-                  require(resolved.is_relative_to(pkg_root) and resolved != pkg_root, f"entry.command[0] escapes dist package: {cmd0!r}")
-                  resolved_cmd0 = str(resolved)
-              else:
-                  found = shutil.which(cmd0)
-                  require(found is not None, f"entry.command[0] is not a valid PATH command: {cmd0!r}")
-                  resolved_cmd0 = found
+            const pkgRoot = fs.realpathSync(pkgDir);
+            let cur = pkgDir;
+            for (const part of parts.slice(0, -1)) {
+              cur = path.join(cur, part);
+              const st = fs.lstatSync(cur, { throwIfNoEntry: false });
+              requireCond(Boolean(st && !st.isSymbolicLink() && st.isDirectory()), `entry.js parent missing or symlink: ${JSON.stringify(rawJS)}`);
+            }
+            const target = path.join(cur, parts[parts.length - 1]);
+            const st = fs.lstatSync(target, { throwIfNoEntry: false });
+            requireCond(Boolean(st && !st.isSymbolicLink() && st.isFile()), `entry.js must be a non-symlink regular file in dist package: ${JSON.stringify(rawJS)}`);
+            const resolved = fs.realpathSync(target);
+            requireCond(resolved.startsWith(pkgRoot + path.sep), `entry.js escapes dist package: ${JSON.stringify(rawJS)}`);
+            return resolved;
+          }
 
-              return [resolved_cmd0, *raw_cmd[1:]]
+          function createRuntimeHarness(harnessDir, pkgDir, entryPath) {
+            const stdShimPath = path.join(harnessDir, "qjs-std-shim.mjs");
+            const sdkShimPath = path.join(harnessDir, "block-sdk-shim.mjs");
+            const loaderPath = path.join(harnessDir, "loader.mjs");
+            const runnerPath = path.join(harnessDir, "runner.mjs");
 
-          def run_plugin(entry, pkg_dir, locale, tmp_dir, plugin_id, surfaces):
-              data_dir = tmp_dir / "data"
-              downloads = tmp_dir / "downloads"
-              data_dir.mkdir(parents=True, exist_ok=True)
-              downloads.mkdir(parents=True, exist_ok=True)
+            fs.writeFileSync(
+              stdShimPath,
+              `import fs from "node:fs";
+          import path from "node:path";
 
-              storage = {}
-              entries = {"welcome.md": {"icon": "star", "tint": "blue"}}
-              prefs = {"picker": True, "sync_tabs": True}
+          const pluginRoot = fs.realpathSync(process.env.BLOCK_PLUGIN_DIR);
+          const oneByte = Buffer.alloc(1);
 
-              def host(method, params):
-                  if method == "host.storage.get":
-                      key = params["key"]
-                      if key in storage:
-                          return {"found": True, "value": storage[key]}
-                      return {"found": False}
-                  if method == "host.storage.set":
-                      storage[params["key"]] = params["value"]
-                      return {"ok": True}
-                  if method == "host.sidebar.get_file_icons":
-                      return {
-                          "entries": dict(entries),
-                          "recent": ["star"],
-                          "prefs": dict(prefs),
-                          "notebook_root": "/tmp/notebook",
-                      }
-                  if method == "host.sidebar.set_file_icons":
-                      if params.get("clear"):
-                          entries.clear()
-                      if isinstance(params.get("prefs"), dict):
-                          prefs.update(params["prefs"])
-                      return {"ok": True}
-                  raise ValueError(f"Unexpected host RPC {method}")
+          export function loadFile(virtualPath) {
+            try {
+              const norm = String(virtualPath || "");
+              if (!norm.startsWith("/plugin/")) return null;
+              const rel = norm.slice("/plugin/".length);
+              const resolved = fs.realpathSync(path.join(pluginRoot, rel));
+              if (resolved !== pluginRoot && !resolved.startsWith(pluginRoot + path.sep)) return null;
+              return fs.readFileSync(resolved, "utf8");
+            } catch {
+              return null;
+            }
+          }
 
-              process = subprocess.Popen(
-                  entry,
-                  cwd=pkg_dir,
-                  stdin=subprocess.PIPE,
-                  stdout=subprocess.PIPE,
-                  stderr=subprocess.PIPE,
-                  text=True,
-                  encoding="utf-8",
-              )
-              replies = Queue()
+          export const inStream = {
+            getline() {
+              const chunks = [];
+              while (true) {
+                let n = 0;
+                try {
+                  n = fs.readSync(0, oneByte, 0, 1, null);
+                } catch (err) {
+                  if (err && err.code === "EAGAIN") continue;
+                  throw err;
+                }
+                if (n === 0) {
+                  return chunks.length === 0 ? null : Buffer.concat(chunks).toString("utf8");
+                }
+                if (oneByte[0] === 0x0a) {
+                  return Buffer.concat(chunks).toString("utf8");
+                }
+                if (oneByte[0] !== 0x0d) {
+                  chunks.push(Buffer.from(oneByte));
+                }
+              }
+            },
+          };
 
-              def read_replies():
-                  for line in process.stdout:
-                      replies.put(line)
-                  replies.put(None)
+          export { inStream as in };
 
-              reader = Thread(target=read_replies, daemon=True)
-              reader.start()
-              request_id = 0
+          export const out = {
+            puts(text) {
+              fs.writeSync(1, String(text));
+            },
+            flush() {},
+          };
 
-              def send(message):
-                  process.stdin.write(json.dumps({"jsonrpc": "2.0", **message}) + "\n")
-                  process.stdin.flush()
+          export const err = {
+            puts(text) {
+              fs.writeSync(2, String(text));
+            },
+            flush() {},
+          };
+          `,
+              "utf8",
+            );
 
-              def rpc(method, params=None):
-                  nonlocal request_id
-                  request_id += 1
-                  send({"id": request_id, "method": method, "params": params or {}})
-                  while True:
-                      try:
-                          line = replies.get(timeout=10)
-                      except Empty:
-                          raise ValueError(f"{locale}: timed out during {method}") from None
-                      require(line is not None, f"{locale}: plugin exited during {method}")
-                      message = json.loads(line)
-                      require(message.get("jsonrpc") == "2.0", f"{method}: invalid JSON-RPC version")
-                      if "method" in message:
-                          result = host(message["method"], message.get("params", {}))
-                          send({"id": message["id"], "result": result})
-                          continue
-                      require(message.get("id") == request_id, f"{method}: unexpected response id")
-                      require("error" not in message, f"{method}: {message.get('error')}")
-                      return message["result"]
+            fs.writeFileSync(
+              sdkShimPath,
+              `import * as std from "qjs:std";
 
-              try:
-                  init = rpc("plugin.initialize", {
-                      "plugin_id": plugin_id,
-                      "locale": locale,
-                      "data_dir": str(data_dir),
-                      "downloads_dir": str(downloads),
-                      "ui_capabilities": ["kv_tooltip"],
-                  })
-                  require(init.get("ready") is True, f"{locale}: plugin not ready")
+          let seq = 1000;
+          const inboundQueue = [];
 
-                  pages = {}
-                  for surface in surfaces:
-                      res = rpc("plugin.render", {"surface": surface})
-                      page = res["page"]
-                      require(isinstance(page.get("title"), str) and page["title"].strip(),
-                              f"{locale} {surface}: missing page title")
-                      check_text(page, locale, f"{locale} {surface}")
-                      pages[surface] = page
+          export class HostRPCError extends Error {
+            constructor(code, message) {
+              super(message);
+              this.name = "HostRPCError";
+              this.code = code;
+            }
+          }
 
-                  rendered = rpc("plugin.render", {
-                      "surface": "settings_page",
-                      "values": {"picker": False, "sync_tabs": False},
-                  })
-                  check_text(rendered["page"], locale, f"{locale} toggle")
-                  require(prefs == {"picker": False, "sync_tabs": False}, f"{locale}: expected prefs False, got {prefs}")
-                  require(storage.get("prefs") == {"picker": False, "sync_tabs": False}, f"{locale}: storage not updated")
+          export function log(...args) {
+            const line = args.map((v) => {
+              if (typeof v === "string") return v;
+              try { return JSON.stringify(v); } catch { return String(v); }
+            }).join(" ");
+            std.err.puts(line + "\\n");
+            std.err.flush();
+          }
 
-                  act = rpc("plugin.action", {
-                      "surface": "settings_page",
-                      "action_id": "reset_notebook",
-                      "values": {},
-                  })
-                  require(act.get("ok") is True, f"{locale}: reset_notebook failed")
-                  check_text(act["status"], locale, f"{locale} reset_notebook.status")
-                  check_text(act["page"], locale, f"{locale} reset_notebook.page")
-                  require(entries == {}, f"{locale}: reset_notebook did not clear entries")
+          export function send(obj) {
+            std.out.puts(JSON.stringify(obj) + "\\n");
+            std.out.flush();
+          }
 
-                  ev = rpc("plugin.event", {"event": "note.saved", "path": "welcome.md"})
-                  require("handled" in ev, f"{locale}: invalid plugin.event response")
+          export function notifyHost(method, params = {}) {
+            send({ jsonrpc: "2.0", method, params: params ?? {} });
+          }
 
-                  require(rpc("plugin.shutdown").get("ok") is True, f"{locale}: shutdown failed")
-                  require(process.wait(timeout=10) == 0, f"{locale}: plugin exited non-zero")
-                  return pages
-              finally:
-                  if process.poll() is None:
-                      process.kill()
-                      process.wait()
-                  reader.join(timeout=1)
-                  process.stdin.close()
-                  process.stdout.close()
+          function readMessageLine() {
+            while (true) {
+              const line = std.in.getline();
+              if (line === null || line === undefined) return null;
+              const trimmed = line.trim();
+              if (!trimmed) continue;
+              try {
+                const msg = JSON.parse(trimmed);
+                if (msg && typeof msg === "object" && !Array.isArray(msg)) return msg;
+              } catch {}
+            }
+          }
 
-          def validate_staged_package(pkg_dir):
-              check_no_symlinks_tree(pkg_dir)
-              for py_path in sorted(pkg_dir.rglob("*.py")):
-                  if py_path.is_file():
-                      compile(py_path.read_bytes(), str(py_path), "exec")
+          export function callHost(method, params = {}) {
+            seq += 1;
+            const reqId = \`p-\${seq}\`;
+            send({ jsonrpc: "2.0", id: reqId, method, params: params ?? {} });
+            while (true) {
+              const msg = readMessageLine();
+              if (msg === null) throw new Error("stdin closed while awaiting host response");
+              const isResponse = msg.id !== undefined && msg.id !== null && String(msg.id) === reqId && !msg.method && ("result" in msg || "error" in msg);
+              if (isResponse) {
+                if (msg.error) {
+                  const code = typeof msg.error.code === "number" ? msg.error.code : -32000;
+                  throw new HostRPCError(code, msg.error.message || "host error");
+                }
+                return msg.result ?? {};
+              }
+              inboundQueue.push(msg);
+            }
+          }
 
-              manifest_path = pkg_dir / "manifest.json"
-              require(not os.path.islink(manifest_path) and manifest_path.is_file(), "Staged package missing manifest.json")
-              manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-              plugin_id = manifest.get("id")
-              require(isinstance(plugin_id, str) and plugin_id.strip(), "Missing manifest.id")
-              plugin_id = plugin_id.strip()
+          export function serve(handler) {
+            if (typeof handler !== "function") throw new TypeError("serve(handler) requires a function");
+            while (true) {
+              const req = inboundQueue.length > 0 ? inboundQueue.shift() : readMessageLine();
+              if (req === null) break;
+              const method = req.method;
+              if (typeof method !== "string" || !method) continue;
+              const reqId = req.id;
+              const params = req.params && typeof req.params === "object" && !Array.isArray(req.params) ? req.params : {};
+              try {
+                const result = handler(method, params, req);
+                if (reqId !== undefined && reqId !== null) {
+                  send({ jsonrpc: "2.0", id: reqId, result: result === undefined ? null : result });
+                }
+                if (method === "plugin.shutdown") break;
+              } catch (err) {
+                if (reqId !== undefined && reqId !== null) {
+                  const message = err && err.message ? String(err.message) : String(err);
+                  const code = err && typeof err.code === "number" ? err.code : -32000;
+                  send({ jsonrpc: "2.0", id: reqId, error: { code, message } });
+                }
+                if (method === "plugin.shutdown") break;
+              }
+            }
+          }
+          `,
+              "utf8",
+            );
 
-              name = manifest.get("name") or {}
-              summary_obj = manifest.get("summary") or {}
-              require(isinstance(name.get("en"), str) and name["en"].strip(), "manifest.name.en is required")
-              require(isinstance(summary_obj.get("en"), str) and summary_obj["en"].strip(), "manifest.summary.en is required")
-              check_text(name["en"], "en", "manifest.name.en")
-              check_text(summary_obj["en"], "en", "manifest.summary.en")
-              for perm, reason in (manifest.get("permission_reasons") or {}).items():
-                  require(isinstance(reason, dict) and isinstance(reason.get("en"), str) and reason["en"].strip(),
-                          f"manifest.permission_reasons.{perm}.en is required")
-                  check_text(reason["en"], "en", f"manifest.permission_reasons.{perm}.en")
-              check_text(manifest, "zh", "manifest")
-              check_contributes_en(manifest.get("contributes"))
+            fs.writeFileSync(
+              loaderPath,
+              `import { pathToFileURL } from "node:url";
+          const stdUrl = pathToFileURL(${JSON.stringify(stdShimPath)}).href;
+          const sdkUrl = pathToFileURL(${JSON.stringify(sdkShimPath)}).href;
 
-              icons_path = pkg_dir / "icons.json"
-              require(not os.path.islink(icons_path) and icons_path.is_file(), "Staged package missing icons.json")
-              pack = json.loads(icons_path.read_text(encoding="utf-8"))
-              require(set(pack.keys()) == {"schema_version", "categories", "icons"}, "icons.json unexpected top-level keys")
-              require(pack["schema_version"] == 1, "icons.json schema_version must be 1")
-              require(len(pack["categories"]) == 8, f"icons.json expected 8 categories, got {len(pack['categories'])}")
-              require(len(pack["icons"]) == 96, f"icons.json expected 96 icons, got {len(pack['icons'])}")
-              for cat in pack["categories"]:
-                  check_text(cat["name"]["zh"], "zh", f"icons.json category {cat['id']} zh")
-                  check_text(cat["name"]["en"], "en", f"icons.json category {cat['id']} en")
-              for ic in pack["icons"]:
-                  check_text(ic["name"]["zh"], "zh", f"icons.json icon {ic['id']} zh")
-                  check_text(ic["name"]["en"], "en", f"icons.json icon {ic['id']} en")
-                  check_text(ic.get("keywords", []), "zh", f"icons.json icon {ic['id']} keywords")
+          export async function resolve(specifier, context, nextResolve) {
+            if (specifier === "qjs:std") return { shortCircuit: true, url: stdUrl };
+            if (specifier === "/runtime/block-sdk.js") return { shortCircuit: true, url: sdkUrl };
+            return nextResolve(specifier, context);
+          }
+          `,
+              "utf8",
+            );
 
-              zh_readme = read_strict_readme(pkg_dir, "README.md")
-              en_readme = read_strict_readme(pkg_dir, "README.en.md")
-              require(HAN.search(strip_html_comments(zh_readme)), "README.md must contain visible Chinese text")
-              require(not CHINESE.search(en_readme), "README.en.md must contain English-only text")
-              require(re.search(r"[A-Za-z]", strip_html_comments(en_readme)), "README.en.md must contain at least one visible ASCII letter")
-              check_text(zh_readme, "zh", "README.md")
-              check_text(en_readme, "en", "README.en.md")
-              require(zh_readme != en_readme, "The two README files must differ")
+            fs.writeFileSync(
+              runnerPath,
+              `import { register } from "node:module";
+          import { pathToFileURL } from "node:url";
 
-              surfaces = declared_surfaces(manifest)
-              entry = resolve_entry_command(pkg_dir, manifest)
-              with TemporaryDirectory(prefix="block-file-icons-zh-") as tzh, TemporaryDirectory(prefix="block-file-icons-en-") as ten:
-                  zh_pages = run_plugin(entry, pkg_dir, "zh", Path(tzh), plugin_id, surfaces)
-                  en_pages = run_plugin(entry, pkg_dir, "en", Path(ten), plugin_id, surfaces)
-              for surface in surfaces:
-                  require(zh_pages[surface]["title"] != en_pages[surface]["title"],
-                          f"{surface}: Chinese and English page titles must differ")
-                  require(zh_pages[surface] != en_pages[surface],
-                          f"{surface}: Chinese and English rendered pages must differ")
-              print("Bilingual release gate passed on staged dist package.")
+          register(pathToFileURL(${JSON.stringify(loaderPath)}).href);
+          await import(pathToFileURL(${JSON.stringify(entryPath)}).href);
+          `,
+              "utf8",
+            );
 
-          repo = os.environ["REPO"]
-          event = os.environ["EVENT_NAME"]
-          ref_name = os.environ["REF_NAME"]
-          force = os.environ.get("FORCE") == "true"
-          shanghai = datetime.timezone(datetime.timedelta(hours=8))
+            return runnerPath;
+          }
 
-          def sh(*args):
-              return subprocess.check_output(args, text=True).strip()
+          async function runPlugin(entryPath, pkgDir, locale, tmpDir, pluginId, surfaces) {
+            const dataDir = path.join(tmpDir, "data");
+            const downloads = path.join(tmpDir, "downloads");
+            const harnessDir = path.join(tmpDir, "harness");
+            fs.mkdirSync(dataDir, { recursive: true });
+            fs.mkdirSync(downloads, { recursive: true });
+            fs.mkdirSync(harnessDir, { recursive: true });
 
-          def summary(msg):
-              print(msg)
-              s_path = os.environ.get("GITHUB_STEP_SUMMARY")
-              if s_path:
-                  with open(s_path, "a", encoding="utf-8") as f:
-                      f.write(msg + "\n")
+            const runnerPath = createRuntimeHarness(harnessDir, pkgDir, entryPath);
+            const storage = {};
+            let entries = { "welcome.md": { icon: "star", tint: "blue" } };
+            let prefs = { picker: true, sync_tabs: true };
 
-          def set_output(**kwargs):
-              o_path = os.environ.get("GITHUB_OUTPUT")
-              if o_path:
-                  with open(o_path, "a", encoding="utf-8") as f:
-                      for k, v in kwargs.items():
-                          f.write(f"{k}={v}\n")
+            function host(method, params) {
+              if (method === "host.storage.get") {
+                const key = params.key;
+                if (Object.prototype.hasOwnProperty.call(storage, key)) {
+                  return { found: true, value: storage[key] };
+                }
+                return { found: false };
+              }
+              if (method === "host.storage.set") {
+                storage[params.key] = params.value;
+                return { ok: true };
+              }
+              if (method === "host.sidebar.get_file_icons") {
+                return {
+                  entries: { ...entries },
+                  recent: ["star"],
+                  prefs: { ...prefs },
+                  notebook_root: "/tmp/notebook",
+                };
+              }
+              if (method === "host.sidebar.set_file_icons") {
+                if (params.clear) {
+                  entries = {};
+                }
+                if (isPlainObject(params.prefs)) {
+                  prefs = { ...prefs, ...params.prefs };
+                }
+                return { ok: true };
+              }
+              throw new Error(`Unexpected host RPC ${method}`);
+            }
 
-          with open("manifest.json", encoding="utf-8") as f:
-              manifest = json.load(f)
-          assert manifest.get("app") == "blockmd", "manifest.app must be 'blockmd'"
-          plugin_id = manifest["id"].strip()
-          assert re.match(r"^[a-z0-9][a-z0-9-]{1,47}$", plugin_id), f"invalid id: {plugin_id}"
-          base_ver = manifest["version"].strip()
-          m_base = re.match(r"^(\d+)\.(\d+)\.(\d+)$", base_ver)
-          assert m_base, f"manifest.version must be X.Y.Z, got {base_ver}"
-          base_major, base_minor = int(m_base.group(1)), int(m_base.group(2))
-          plugin_title = (manifest.get("name", {}).get("en") or plugin_id).strip()
+            const child = spawn(process.execPath, [runnerPath], {
+              cwd: pkgDir,
+              env: { ...process.env, BLOCK_PLUGIN_DIR: pkgDir },
+              stdio: ["pipe", "pipe", "pipe"],
+            });
 
-          head_sha = sh("git", "rev-parse", "HEAD")
+            let stderrText = "";
+            child.stderr.on("data", (chunk) => {
+              stderrText += chunk.toString("utf8");
+            });
 
-          def parse_ver(tag):
-              m = re.match(r"^v?(\d+)\.(\d+)\.(\d+)$", (tag or "").strip())
-              return (int(m.group(1)), int(m.group(2)), int(m.group(3))) if m else None
+            const lines = [];
+            const waiters = [];
+            let closed = false;
+            let buf = "";
 
-          raw_rels = sh("gh", "api", "--paginate", f"repos/{repo}/releases?per_page=100", "--jq", ".[]")
-          releases = [json.loads(line) for line in raw_rels.splitlines() if line.strip()]
-          stable = [r for r in releases if not r.get("draft") and not r.get("prerelease") and parse_ver(r.get("tag_name"))]
-          stable.sort(key=lambda r: parse_ver(r["tag_name"]))
-          previous = stable[-1] if stable else None
+            child.stdout.on("data", (chunk) => {
+              buf += chunk.toString("utf8");
+              while (true) {
+                const idx = buf.indexOf("\n");
+                if (idx < 0) break;
+                const line = buf.slice(0, idx).replace(/\r$/, "");
+                buf = buf.slice(idx + 1);
+                if (waiters.length > 0) {
+                  waiters.shift()(line);
+                } else {
+                  lines.push(line);
+                }
+              }
+            });
 
-          taken = {parse_ver(r.get("tag_name")) for r in releases if parse_ver(r.get("tag_name"))}
-          for t in sh("git", "tag", "--list", "v*").splitlines():
-              pv = parse_ver(t)
-              if pv:
-                  taken.add(pv)
+            child.stdout.on("end", () => {
+              closed = true;
+              while (waiters.length > 0) {
+                waiters.shift()(null);
+              }
+            });
 
-          def resolve_tag_sha(rel):
-              if not rel:
-                  return ""
-              tag = rel["tag_name"]
-              try:
-                  s = sh("git", "rev-parse", f"{tag}^{{commit}}")
-                  if re.match(r"^[0-9a-f]{40}$", s):
-                      return s
-              except Exception:
-                  pass
-              try:
-                  s = sh("gh", "api", f"repos/{repo}/commits/{tag}", "--jq", ".sha")
-                  if re.match(r"^[0-9a-f]{40}$", s):
-                      return s
-              except Exception:
-                  pass
-              return ""
+            function nextLine(timeoutMs = 10000) {
+              if (lines.length > 0) {
+                return Promise.resolve(lines.shift());
+              }
+              if (closed) {
+                return Promise.resolve(null);
+              }
+              return new Promise((resolve, reject) => {
+                const timer = setTimeout(() => {
+                  const idx = waiters.indexOf(onLine);
+                  if (idx >= 0) waiters.splice(idx, 1);
+                  reject(new Error(`${locale}: timed out awaiting plugin response (stderr=${stderrText})`));
+                }, timeoutMs);
+                function onLine(line) {
+                  clearTimeout(timer);
+                  resolve(line);
+                }
+                waiters.push(onLine);
+              });
+            }
 
-          if event == "push" and ref_name.startswith("v"):
-              pv = parse_ver(ref_name)
-              assert pv, f"Tag {ref_name} must match vX.Y.Z"
-              version = f"{pv[0]}.{pv[1]}.{pv[2]}"
-              tag = f"v{version}"
-              prev_for_notes = next((r for r in reversed(stable) if r["tag_name"] != tag), None)
-              prev_sha = resolve_tag_sha(prev_for_notes)
-          else:
-              if event == "schedule" and not force and previous and previous.get("published_at"):
-                  today = datetime.datetime.now(shanghai).strftime("%Y-%m-%d")
-                  pub_dt = datetime.datetime.fromisoformat(previous["published_at"].replace("Z", "+00:00")).astimezone(shanghai)
-                  if today == pub_dt.strftime("%Y-%m-%d"):
-                      summary(f"今日（{today}）已发布过 {previous['tag_name']}，每日定时最多自动发布一次，本次跳过。")
-                      set_output(should_release="no")
-                      sys.exit(0)
+            function send(msg) {
+              child.stdin.write(JSON.stringify({ jsonrpc: "2.0", ...msg }) + "\n");
+            }
 
-              prev_sha = resolve_tag_sha(previous)
-              if prev_sha and prev_sha == head_sha and not force:
-                  summary(f"当前 HEAD ({head_sha[:7]}) 与最新 Release {previous['tag_name']} 一致，跳过发版。")
-                  set_output(should_release="no")
-                  sys.exit(0)
+            let requestId = 0;
+            async function rpc(method, params = {}) {
+              requestId += 1;
+              const id = requestId;
+              send({ id, method, params });
+              while (true) {
+                const line = await nextLine();
+                requireCond(line !== null, `${locale}: plugin exited during ${method} (stderr=${stderrText})`);
+                const message = JSON.parse(line);
+                requireCond(message.jsonrpc === "2.0", `${method}: invalid JSON-RPC version`);
+                if (typeof message.method === "string") {
+                  const result = host(message.method, message.params || {});
+                  send({ id: message.id, result });
+                  continue;
+                }
+                requireCond(message.id === id, `${method}: unexpected response id`);
+                requireCond(!message.error, `${method}: ${JSON.stringify(message.error)}`);
+                return message.result;
+              }
+            }
 
-              if prev_sha and not force:
-                  is_anc = subprocess.call(["git", "merge-base", "--is-ancestor", prev_sha, head_sha]) == 0
-                  if is_anc:
-                      changed = [
-                          p for p in sh("git", "diff", "--name-only", prev_sha, head_sha).splitlines()
-                          if p and not p.startswith(".github/") and p not in {".gitignore", "LICENSE"}
-                      ]
-                      if not changed:
-                          summary(f"自 {previous['tag_name']} 以来仅包含 CI 或仓库元数据变更，无需发包，本次跳过。")
-                          set_output(should_release="no")
-                          sys.exit(0)
-                      subjects = sh("git", "log", "--no-merges", "--format=%s", f"{prev_sha}..{head_sha}").splitlines()
-                      if subjects and all("[skip release]" in s.lower() for s in subjects):
-                          summary("区间内提交均标记 [skip release]，本次跳过。")
-                          set_output(should_release="no")
-                          sys.exit(0)
+            try {
+              const init = await rpc("plugin.initialize", {
+                plugin_id: pluginId,
+                locale,
+                data_dir: dataDir,
+                downloads_dir: downloads,
+                ui_capabilities: ["kv_tooltip"],
+              });
+              requireCond(init && init.ready === true, `${locale}: plugin not ready`);
 
-              commit_count = int(sh("git", "rev-list", "--count", head_sha))
-              cand = (base_major, base_minor, commit_count)
-              highest = max(taken) if taken else None
-              if highest and cand <= highest:
-                  cand = (highest[0], highest[1], highest[2] + 1)
-              while cand in taken:
-                  cand = (cand[0], cand[1], cand[2] + 1)
-              version = f"{cand[0]}.{cand[1]}.{cand[2]}"
-              tag = f"v{version}"
+              const pages = {};
+              for (const surface of surfaces) {
+                const res = await rpc("plugin.render", { surface });
+                const page = res.page;
+                requireCond(typeof page?.title === "string" && page.title.trim() !== "", `${locale} ${surface}: missing page title`);
+                checkText(page, locale, `${locale} ${surface}`);
+                pages[surface] = page;
+              }
 
-          notes_lines = []
-          if prev_sha and prev_sha != head_sha and subprocess.call(["git", "merge-base", "--is-ancestor", prev_sha, head_sha]) == 0:
-              raw_log = sh("git", "log", "--no-merges", "--reverse", "--format=%h%x00%s", f"{prev_sha}..{head_sha}")
-              for line in raw_log.splitlines():
-                  if not line.strip():
-                      continue
-                  c_sha, subj = line.split("\x00", 1)
-                  if re.match(r"^(?:ci|docs)(?:\([^)]*\))?:\s", subj, re.I):
-                      continue
-                  notes_lines.append(f"- {subj} (`{c_sha}`)")
-          if not notes_lines:
-              notes_lines.append(f"- Automated release from `{head_sha[:7]}`.")
-          with open("release-notes.md", "w", encoding="utf-8") as f:
-              f.write("## Changes\n\n" + "\n".join(notes_lines) + "\n")
+              const rendered = await rpc("plugin.render", {
+                surface: "settings_page",
+                values: { picker: false, sync_tabs: false },
+              });
+              checkText(rendered.page, locale, `${locale} toggle`);
+              requireCond(prefs.picker === false && prefs.sync_tabs === false, `${locale}: expected prefs false, got ${JSON.stringify(prefs)}`);
+              requireCond(storage.prefs?.picker === false && storage.prefs?.sync_tabs === false, `${locale}: storage not updated`);
 
-          pkg_dir = os.path.join("dist", plugin_id)
-          shutil.rmtree("dist", ignore_errors=True)
-          os.makedirs(pkg_dir, exist_ok=True)
-          tar_bytes = subprocess.check_output(["git", "archive", "--format=tar", head_sha])
-          subprocess.run(["tar", "-xf", "-", "-C", pkg_dir], input=tar_bytes, check=True)
-          shutil.rmtree(os.path.join(pkg_dir, ".github"), ignore_errors=True)
-          for meta_file in (".gitignore",):
-              p = os.path.join(pkg_dir, meta_file)
-              if not os.path.islink(p) and os.path.exists(p):
-                  os.remove(p)
+              const act = await rpc("plugin.action", {
+                surface: "settings_page",
+                action_id: "reset_notebook",
+                values: {},
+              });
+              requireCond(act.ok === true, `${locale}: reset_notebook failed`);
+              checkText(act.status, locale, `${locale} reset_notebook.status`);
+              checkText(act.page, locale, `${locale} reset_notebook.page`);
+              requireCond(Object.keys(entries).length === 0, `${locale}: reset_notebook did not clear entries`);
 
-          try:
-              check_no_symlinks_tree(Path(pkg_dir))
-          except Exception as exc:
-              print(f"Bilingual release gate failed: {exc}", file=sys.stderr)
-              sys.exit(1)
+              const ev = await rpc("plugin.event", { event: "note.saved", path: "welcome.md" });
+              requireCond("handled" in ev, `${locale}: invalid plugin.event response`);
 
-          manifest["version"] = version
-          with open(os.path.join(pkg_dir, "manifest.json"), "w", encoding="utf-8") as f:
-              json.dump(manifest, f, ensure_ascii=False, indent=2)
-              f.write("\n")
+              const shutdown = await rpc("plugin.shutdown");
+              requireCond(shutdown && shutdown.ok === true, `${locale}: shutdown failed`);
 
-          try:
-              validate_staged_package(Path(pkg_dir))
-          except Exception as exc:
-              print(f"Bilingual release gate failed: {exc}", file=sys.stderr)
-              sys.exit(1)
+              const exitCode = await new Promise((resolve, reject) => {
+                const timer = setTimeout(() => reject(new Error(`${locale}: plugin did not exit`)), 10000);
+                child.once("exit", (code) => {
+                  clearTimeout(timer);
+                  resolve(code);
+                });
+              });
+              requireCond(exitCode === 0, `${locale}: plugin exited non-zero (${exitCode})`);
+              return pages;
+            } finally {
+              if (child.exitCode === null) {
+                child.kill("SIGKILL");
+              }
+              child.stdin.destroy();
+            }
+          }
 
-          archive_name = f"{plugin_id}-{tag}.tar.gz"
-          subprocess.check_call(["tar", "-czf", archive_name, "-C", "dist", plugin_id])
+          async function validateStagedPackage(pkgDir) {
+            checkNoSymlinksAndNoPy(pkgDir);
 
-          summary(f"准备发布 {plugin_title} {tag} (archive={archive_name}, commit={head_sha[:7]})")
-          set_output(
-              should_release="yes",
-              version=version,
-              tag=tag,
-              title=f"{plugin_title} {version}",
-              archive=archive_name,
-              head_sha=head_sha,
-          )
-          PY
+            const manifestPath = path.join(pkgDir, "manifest.json");
+            const manifestStat = fs.lstatSync(manifestPath, { throwIfNoEntry: false });
+            requireCond(Boolean(manifestStat && !manifestStat.isSymbolicLink() && manifestStat.isFile()), "Staged package missing manifest.json");
+            const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+            const pluginId = typeof manifest.id === "string" ? manifest.id.trim() : "";
+            requireCond(Boolean(pluginId), "Missing manifest.id");
+
+            const name = manifest.name || {};
+            const summaryObj = manifest.summary || {};
+            requireCond(typeof name.en === "string" && name.en.trim() !== "", "manifest.name.en is required");
+            requireCond(typeof summaryObj.en === "string" && summaryObj.en.trim() !== "", "manifest.summary.en is required");
+            checkText(name.en, "en", "manifest.name.en");
+            checkText(summaryObj.en, "en", "manifest.summary.en");
+            for (const [perm, reason] of Object.entries(manifest.permission_reasons || {})) {
+              requireCond(isPlainObject(reason) && typeof reason.en === "string" && reason.en.trim() !== "", `manifest.permission_reasons.${perm}.en is required`);
+              checkText(reason.en, "en", `manifest.permission_reasons.${perm}.en`);
+            }
+            checkText(manifest, "zh", "manifest");
+            checkContributesEn(manifest.contributes);
+
+            const iconsPath = path.join(pkgDir, "icons.json");
+            const iconsStat = fs.lstatSync(iconsPath, { throwIfNoEntry: false });
+            requireCond(Boolean(iconsStat && !iconsStat.isSymbolicLink() && iconsStat.isFile()), "Staged package missing icons.json");
+            const pack = JSON.parse(fs.readFileSync(iconsPath, "utf8"));
+            const packKeys = Object.keys(pack).sort().join(",");
+            requireCond(packKeys === "categories,icons,schema_version", "icons.json unexpected top-level keys");
+            requireCond(pack.schema_version === 1, "icons.json schema_version must be 1");
+            requireCond(Array.isArray(pack.categories) && pack.categories.length === 8, `icons.json expected 8 categories, got ${pack.categories?.length}`);
+            requireCond(Array.isArray(pack.icons) && pack.icons.length === 96, `icons.json expected 96 icons, got ${pack.icons?.length}`);
+            for (const cat of pack.categories) {
+              checkText(cat.name.zh, "zh", `icons.json category ${cat.id} zh`);
+              checkText(cat.name.en, "en", `icons.json category ${cat.id} en`);
+            }
+            for (const ic of pack.icons) {
+              checkText(ic.name.zh, "zh", `icons.json icon ${ic.id} zh`);
+              checkText(ic.name.en, "en", `icons.json icon ${ic.id} en`);
+              checkText(ic.keywords || [], "zh", `icons.json icon ${ic.id} keywords`);
+            }
+
+            const zhReadme = readStrictReadme(pkgDir, "README.md");
+            const enReadme = readStrictReadme(pkgDir, "README.en.md");
+            requireCond(HAN.test(stripHtmlComments(zhReadme)), "README.md must contain visible Chinese text");
+            requireCond(!CHINESE.test(enReadme), "README.en.md must contain English-only text");
+            requireCond(/[A-Za-z]/.test(stripHtmlComments(enReadme)), "README.en.md must contain at least one visible ASCII letter");
+            checkText(zhReadme, "zh", "README.md");
+            checkText(enReadme, "en", "README.en.md");
+            requireCond(zhReadme !== enReadme, "The two README files must differ");
+
+            const surfaces = declaredSurfaces(manifest);
+            const entryPath = resolveEntryJS(pkgDir, manifest);
+            const tzh = fs.mkdtempSync(path.join(os.tmpdir(), "block-file-icons-zh-"));
+            const ten = fs.mkdtempSync(path.join(os.tmpdir(), "block-file-icons-en-"));
+            try {
+              const zhPages = await runPlugin(entryPath, pkgDir, "zh", tzh, pluginId, surfaces);
+              const enPages = await runPlugin(entryPath, pkgDir, "en", ten, pluginId, surfaces);
+              for (const surface of surfaces) {
+                requireCond(zhPages[surface].title !== enPages[surface].title, `${surface}: Chinese and English page titles must differ`);
+                requireCond(JSON.stringify(zhPages[surface]) !== JSON.stringify(enPages[surface]), `${surface}: Chinese and English rendered pages must differ`);
+              }
+            } finally {
+              fs.rmSync(tzh, { recursive: true, force: true });
+              fs.rmSync(ten, { recursive: true, force: true });
+            }
+            console.log("Bilingual release gate passed on staged dist package.");
+          }
+
+          function sh(cmd, args, opts = {}) {
+            return execFileSync(cmd, args, { encoding: "utf8", ...opts }).trim();
+          }
+
+          function shOk(cmd, args) {
+            try {
+              execFileSync(cmd, args, { stdio: "ignore" });
+              return true;
+            } catch {
+              return false;
+            }
+          }
+
+          function summary(msg) {
+            console.log(msg);
+            const sPath = process.env.GITHUB_STEP_SUMMARY;
+            if (sPath) {
+              fs.appendFileSync(sPath, msg + "\n", "utf8");
+            }
+          }
+
+          function setOutput(fields) {
+            const oPath = process.env.GITHUB_OUTPUT;
+            if (oPath) {
+              const lines = Object.entries(fields).map(([k, v]) => `${k}=${v}`).join("\n") + "\n";
+              fs.appendFileSync(oPath, lines, "utf8");
+            }
+          }
+
+          function parseVer(tag) {
+            const m = String(tag || "").trim().match(/^v?(\d+)\.(\d+)\.(\d+)$/);
+            return m ? [Number(m[1]), Number(m[2]), Number(m[3])] : null;
+          }
+
+          function cmpVer(a, b) {
+            for (let i = 0; i < 3; i += 1) {
+              if (a[i] !== b[i]) return a[i] - b[i];
+            }
+            return 0;
+          }
+
+          function verKey(v) {
+            return `${v[0]}.${v[1]}.${v[2]}`;
+          }
+
+          function shanghaiDateStr(date = new Date()) {
+            return new Date(date.getTime() + 8 * 3600 * 1000).toISOString().slice(0, 10);
+          }
+
+          const repo = process.env.REPO;
+          const event = process.env.EVENT_NAME;
+          const refName = process.env.REF_NAME;
+          const force = process.env.FORCE === "true";
+
+          const manifest = JSON.parse(fs.readFileSync("manifest.json", "utf8"));
+          requireCond(manifest.app === "blockmd", "manifest.app must be 'blockmd'");
+          const pluginId = manifest.id.trim();
+          requireCond(/^[a-z0-9][a-z0-9-]{1,47}$/.test(pluginId), `invalid id: ${pluginId}`);
+          const baseVer = manifest.version.trim();
+          const mBase = baseVer.match(/^(\d+)\.(\d+)\.(\d+)$/);
+          requireCond(Boolean(mBase), `manifest.version must be X.Y.Z, got ${baseVer}`);
+          const baseMajor = Number(mBase[1]);
+          const baseMinor = Number(mBase[2]);
+          const pluginTitle = (manifest.name?.en || pluginId).trim();
+
+          const headSha = sh("git", ["rev-parse", "HEAD"]);
+          const rawRels = sh("gh", ["api", "--paginate", `repos/${repo}/releases?per_page=100`, "--jq", ".[]"]);
+          const releases = rawRels.split("\n").map((l) => l.trim()).filter(Boolean).map((l) => JSON.parse(l));
+          const stable = releases
+            .filter((r) => !r.draft && !r.prerelease && parseVer(r.tag_name))
+            .sort((a, b) => cmpVer(parseVer(a.tag_name), parseVer(b.tag_name)));
+          const previous = stable.length > 0 ? stable[stable.length - 1] : null;
+
+          const taken = new Set();
+          for (const r of releases) {
+            const pv = parseVer(r.tag_name);
+            if (pv) taken.add(verKey(pv));
+          }
+          for (const t of sh("git", ["tag", "--list", "v*"]).split("\n")) {
+            const pv = parseVer(t);
+            if (pv) taken.add(verKey(pv));
+          }
+
+          function resolveTagSha(rel) {
+            if (!rel) return "";
+            const tag = rel.tag_name;
+            try {
+              const s = sh("git", ["rev-parse", `${tag}^{commit}`]);
+              if (/^[0-9a-f]{40}$/.test(s)) return s;
+            } catch {}
+            try {
+              const s = sh("gh", ["api", `repos/${repo}/commits/${tag}`, "--jq", ".sha"]);
+              if (/^[0-9a-f]{40}$/.test(s)) return s;
+            } catch {}
+            return "";
+          }
+
+          let version;
+          let tag;
+          let prevSha = "";
+
+          if (event === "push" && refName.startsWith("v")) {
+            const pv = parseVer(refName);
+            requireCond(Boolean(pv), `Tag ${refName} must match vX.Y.Z`);
+            version = verKey(pv);
+            tag = `v${version}`;
+            const prevForNotes = [...stable].reverse().find((r) => r.tag_name !== tag) || null;
+            prevSha = resolveTagSha(prevForNotes);
+          } else {
+            if (event === "schedule" && !force && previous && previous.published_at) {
+              const today = shanghaiDateStr();
+              const pubDay = shanghaiDateStr(new Date(previous.published_at));
+              if (today === pubDay) {
+                summary(`今日（${today}）已发布过 ${previous.tag_name}，每日定时最多自动发布一次，本次跳过。`);
+                setOutput({ should_release: "no" });
+                process.exit(0);
+              }
+            }
+
+            prevSha = resolveTagSha(previous);
+            if (prevSha && prevSha === headSha && !force) {
+              summary(`当前 HEAD (${headSha.slice(0, 7)}) 与最新 Release ${previous.tag_name} 一致，跳过发版。`);
+              setOutput({ should_release: "no" });
+              process.exit(0);
+            }
+
+            if (prevSha && !force && shOk("git", ["merge-base", "--is-ancestor", prevSha, headSha])) {
+              const changed = sh("git", ["diff", "--name-only", prevSha, headSha])
+                .split("\n")
+                .filter((p) => p && !p.startsWith(".github/") && p !== ".gitignore" && p !== "LICENSE");
+              if (changed.length === 0) {
+                summary(`自 ${previous.tag_name} 以来仅包含 CI 或仓库元数据变更，无需发包，本次跳过。`);
+                setOutput({ should_release: "no" });
+                process.exit(0);
+              }
+              const subjects = sh("git", ["log", "--no-merges", "--format=%s", `${prevSha}..${headSha}`])
+                .split("\n")
+                .filter(Boolean);
+              if (subjects.length > 0 && subjects.every((s) => s.toLowerCase().includes("[skip release]"))) {
+                summary("区间内提交均标记 [skip release]，本次跳过。");
+                setOutput({ should_release: "no" });
+                process.exit(0);
+              }
+            }
+
+            const commitCount = Number(sh("git", ["rev-list", "--count", headSha]));
+            let cand = [baseMajor, baseMinor, commitCount];
+            let highest = null;
+            for (const k of taken) {
+              const v = parseVer(k);
+              if (!highest || cmpVer(v, highest) > 0) highest = v;
+            }
+            if (highest && cmpVer(cand, highest) <= 0) {
+              cand = [highest[0], highest[1], highest[2] + 1];
+            }
+            while (taken.has(verKey(cand))) {
+              cand = [cand[0], cand[1], cand[2] + 1];
+            }
+            version = verKey(cand);
+            tag = `v${version}`;
+          }
+
+          const notesLines = [];
+          if (prevSha && prevSha !== headSha && shOk("git", ["merge-base", "--is-ancestor", prevSha, headSha])) {
+            const rawLog = sh("git", ["log", "--no-merges", "--reverse", "--format=%h%x00%s", `${prevSha}..${headSha}`]);
+            for (const line of rawLog.split("\n")) {
+              if (!line.trim()) continue;
+              const sepIdx = line.indexOf("\0");
+              const cSha = line.slice(0, sepIdx);
+              const subj = line.slice(sepIdx + 1);
+              if (/^(?:ci|docs)(?:\([^)]*\))?:\s/i.test(subj)) continue;
+              notesLines.push(`- ${subj} (\`${cSha}\`)`);
+            }
+          }
+          if (notesLines.length === 0) {
+            notesLines.push(`- Automated release from \`${headSha.slice(0, 7)}\`.`);
+          }
+          fs.writeFileSync("release-notes.md", "## Changes\n\n" + notesLines.join("\n") + "\n", "utf8");
+
+          const pkgDir = path.join("dist", pluginId);
+          fs.rmSync("dist", { recursive: true, force: true });
+          fs.mkdirSync(pkgDir, { recursive: true });
+          const tarBytes = execFileSync("git", ["archive", "--format=tar", headSha]);
+          execFileSync("tar", ["-xf", "-", "-C", pkgDir], { input: tarBytes });
+          fs.rmSync(path.join(pkgDir, ".github"), { recursive: true, force: true });
+          const gitignorePath = path.join(pkgDir, ".gitignore");
+          const giStat = fs.lstatSync(gitignorePath, { throwIfNoEntry: false });
+          if (giStat && !giStat.isSymbolicLink()) {
+            fs.rmSync(gitignorePath, { force: true });
+          }
+
+          try {
+            checkNoSymlinksAndNoPy(pkgDir);
+          } catch (err) {
+            console.error(`Bilingual release gate failed: ${err.message}`);
+            process.exit(1);
+          }
+
+          manifest.version = version;
+          fs.writeFileSync(path.join(pkgDir, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n", "utf8");
+
+          try {
+            await validateStagedPackage(pkgDir);
+          } catch (err) {
+            console.error(`Bilingual release gate failed: ${err.message}`);
+            process.exit(1);
+          }
+
+          const archiveName = `${pluginId}-${tag}.tar.gz`;
+          execFileSync("tar", ["-czf", archiveName, "-C", "dist", pluginId]);
+
+          summary(`准备发布 ${pluginTitle} ${tag} (archive=${archiveName}, commit=${headSha.slice(0, 7)})`);
+          setOutput({
+            should_release: "yes",
+            version,
+            tag,
+            title: `${pluginTitle} ${version}`,
+            archive: archiveName,
+            head_sha: headSha,
+          });
+          JS
 
       # 更新说明只经 tailnet 用 Magpie：Mac 在线先用 Mac 的 agy-cli/gemini-3.8-flash，再 VPS gpt-6-luna，最后 deepseek-flash。
       # 与 Block 主仓 scripts/release/release-notes.mjs 的顺序保持一致；不要用 Google AI Studio key。
