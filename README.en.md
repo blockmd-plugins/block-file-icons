@@ -4,10 +4,11 @@
   <img alt="Custom Icons" src="assets/demo-light.svg">
 </picture>
 
-Customize Block notebooks, sidebar notes, and folders with 96 two-tone vector icons and 7 tints.
+Just like organizing pages in Notion or Bear, this plugin lets you give notebooks, folders, and notes distinct icons and colors so you can spot the right file in the sidebar at a glance.
 
-- **96 two-tone icons**: Organized across 8 categories (Documents, Work, Development, Study, Life, Nature, Ocean, Symbols) with bilingual keyword search and recent picks.
-- **7 soft tints**: Choose from Default, Blue, Teal, Green, Amber, Red, and Purple, adapted for both light and dark themes.
-- **Direct picker**: Click the notebook icon in the sidebar footer, notebook switcher, or titlebar, or click any file or folder icon in the sidebar (or use the context menu) to customize it. Toggle click-to-pick, tab icon sync, or reset the current notebook from plugin settings.
+- **96 icons with fast search**: Browse 8 categories (Documents, Work, Development, Study, Life, Nature, Ocean, Symbols), search by English or Chinese keywords, and revisit recent picks.
+- **7 adaptive colors**: Choose from Default, Blue, Teal, Green, Amber, Red, and Purple, tuned to look clean in both light and dark themes.
+- **Click or right-click to change**: Click any notebook, file, or folder icon in the sidebar or titlebar, or use the right-click menu to open the picker.
+- **Tab sync and one-click reset**: Toggle click-to-pick or top tab icon sync anytime in plugin settings, or clear all custom icons for the current notebook in one click.
 
 **Install**: Open Block Settings -> App Store and search **Custom Icons**, or enter `blockmd-plugins/block-file-icons`.
